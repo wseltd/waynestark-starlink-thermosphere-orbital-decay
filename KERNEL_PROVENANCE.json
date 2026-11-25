@@ -4,7 +4,7 @@
   "paper": "Paper I: Atmospheric Model Response and Conditional Orbital Consequences",
   "release_version": "1.0.0",
   "shared_library_name": "thermosphere_consequence",
-  "source_portfolio_commit": "3c412fd1c7240d29327066469aae9f672959ecab",
+  "source_portfolio_commit": "882e68f0eb8d78201d9f29d0d6f2cdbba168d007",
   "baseline_historical_snapshot": "08c8b86",
   "note": "Shared Apache-2.0 numerical kernels under src/thermosphere_consequence/ are preserved byte-identical across the three independent repositories without independent rewrites.",
   "module_count": 95,

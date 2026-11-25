@@ -9,7 +9,7 @@ Standalone open-source reproducibility repository for **Paper I**:
 ## Scope
 This repository contains everything required to inspect and independently verify Paper I without depending on a combined portfolio bundle:
 - Compiled manuscript PDF and LaTeX source (`paper/Starlink_Paper1_Atmospheric_Response_and_Orbital_Consequences.pdf`, `paper/main.tex`, `paper/main.bbl`, `paper/figures/`).
-- Shared Apache-2.0 physics and propagation library (`src/thermosphere_consequence/`, byte-identical kernel provenance recorded in `KERNEL_PROVENANCE.json` against baseline `08c8b86` and commit `3c412fd1c724`).
+- Shared Apache-2.0 physics and propagation library (`src/thermosphere_consequence/`, byte-identical kernel provenance recorded in `KERNEL_PROVENANCE.json` against baseline `08c8b86` and commit `882e68f0eb8d`).
 - Paper I reproduction & diagnostic scripts (`scripts/`).
 - Frozen derived scientific evidence (`evidence/`, `results/`), with historical SHA-256 digests preserved untouched.
 - Independent offline + live verification suite (`verify_all_claims.py`, `tests/test_standalone_paper1.py`) and clean-install receipt (`CLEAN_INSTALL_RECEIPT.json`).
@@ -30,7 +30,7 @@ pytest -q
 3. **Official NRLMSIS 2.0 & 2.1 Fortran packages:** governed by U.S. Naval Research Laboratory academic/non-commercial research licences (US Patent 10,641,925) and NOT redistributed here. Obtain directly from `https://map.nrl.navy.mil/map/pub/nrl/NRLMSIS/`, verify digests against `third_party/nrlmsis_asset_manifest.yaml`, export `NRLMSIS20_ROOT` / `NRLMSIS21_ROOT`, and compile local drivers via `bash scripts/build_nrlmsis2_driver.sh 2.1`.
 
 ## Scientific Limitations
-- All paired orbital threshold-crossing times (`5.94 h` at 30°, `3.04 h` broadside, `29.71 h` edge-on under NRLMSIS 2.1 `V1`; `5.95 h` at 30° under NRLMSISE-00 `V2`/`V3-pair`) are conditional forward counterfactual simulations of an eight-facet proxy geometry from the planned insertion orbit, not observed decay durations of flown satellites.
+- All paired orbital threshold-crossing times (`5.94 h` at 30°, `3.04 h` broadside, `29.71 h` edge-on under NRLMSIS 2.1 with legacy centroid shadowing; `5.95 h` at 30° under NRLMSISE-00 with continuous collimated-area or parallel-plate kinetic cavity shadowing) are conditional forward counterfactual simulations of an eight-facet proxy geometry from the planned insertion orbit, not observed decay durations of flown satellites.
 - Empirical MSIS models are documented as underestimating rapid storm-time enhancements relative to accelerometer observations and physics-based models in many storm phases, though bias varies with altitude, phase, and baseline and is not an established universal lower bound.
 - No proprietary SpaceX geometry, attitude telemetry, or operational validation is claimed.
 

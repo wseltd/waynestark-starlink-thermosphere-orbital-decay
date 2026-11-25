@@ -10,6 +10,6 @@
   "verify_all_claims_returncode": 0,
   "verify_all_claims_passed": true,
   "pytest_returncode": 0,
-  "pytest_summary": "3 passed in 0.31s",
+  "pytest_summary": "3 passed in 0.30s",
   "offline_dependencies_from_host_venv": true
 }
