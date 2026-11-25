@@ -9,7 +9,7 @@ Standalone open-source reproducibility repository for **Paper I**:
 ## Scope
 This repository contains everything required to inspect and independently verify Paper I without depending on a combined portfolio bundle:
 - Compiled manuscript PDF and LaTeX source (`paper/Starlink_Paper1_Atmospheric_Response_and_Orbital_Consequences.pdf`, `paper/main.tex`, `paper/main.bbl`, `paper/figures/`).
-- Shared Apache-2.0 physics and propagation library (`src/thermosphere_consequence/`, byte-identical kernel provenance recorded in `KERNEL_PROVENANCE.json` against baseline `08c8b86` and commit `02ee76091d28`).
+- Shared Apache-2.0 physics and propagation library (`src/thermosphere_consequence/`, byte-identical kernel provenance recorded in `KERNEL_PROVENANCE.json` against baseline `08c8b86` and commit `3c412fd1c724`).
 - Paper I reproduction & diagnostic scripts (`scripts/`).
 - Frozen derived scientific evidence (`evidence/`, `results/`), with historical SHA-256 digests preserved untouched.
 - Independent offline + live verification suite (`verify_all_claims.py`, `tests/test_standalone_paper1.py`) and clean-install receipt (`CLEAN_INSTALL_RECEIPT.json`).

@@ -3,8 +3,8 @@
   "baseline_historical_snapshot_commit": "08c8b86",
   "baseline_historical_receipt": "evidence/R2_PAIRED_LIFETIME_REPRODUCTION.json",
   "total_pinned_python_files": 109,
-  "unchanged_from_08c8b86_count": 94,
-  "declared_round5_modifications_count": 15,
+  "unchanged_from_08c8b86_count": 93,
+  "declared_round5_modifications_count": 16,
   "declared_round5_modifications": {
     "scripts/run_species_gsi_propagation.py": {
       "historical_08c8b86_sha256": "64bab43cfe4dd38efc3519fada62fb1f038312d08b3f00ab33c173712c280d9f",
@@ -29,6 +29,12 @@
       "round5_sha256": "3733c0a425aa6f6219c81b77ebf41a222a7f3d94f9c76a7179d1c206528b7262",
       "category": "attribution_prose_only_fix",
       "reason": "Round-5/final-polish fix: corrected prose/docstring/label attribution of 0.085 m^2/kg from SpaceX/operator to Shambaugh (2024) Capella Space Whitney SAR satellite (plus qualified empirical storm underestimation prose where applicable); zero numerical or physics code changed."
+    },
+    "src/thermosphere_consequence/api/app.py": {
+      "historical_08c8b86_sha256": "fd98f76121bf69bc55de7d4311ec6db8e8b5e02c0aa93787dddc989c38a092e3",
+      "round5_sha256": "a58151cc59ad8b6b91d7f9fddfa2782b3acc2fe131176e870171003f0e3fa6a8",
+      "category": "attribution_prose_only_fix",
+      "reason": "Final documentation polish: renamed legacy API JSON key from operator_fitted_inverse_ballistic_coefficient_m2_kg to external_capella_reference_inverse_ballistic_coefficient_m2_kg and added explicit Shambaugh (2024) Capella Space SAR provenance caveat; zero numerical or physics code changed."
     },
     "src/thermosphere_consequence/cli/reproduce.py": {
       "historical_08c8b86_sha256": "c6b2498f18a59d3b8c390d61ad499e86485bc776d27f59d9636f9fcbfa70c502",
@@ -115,7 +121,7 @@
     "src/thermosphere_consequence/aerodynamics/proxy_geometry.py": "f1525e620f8216fad64fada0e9012df1ae0ab0c0bf4ff76e7a9b5bb052303136",
     "src/thermosphere_consequence/aerodynamics/sentman.py": "3733c0a425aa6f6219c81b77ebf41a222a7f3d94f9c76a7179d1c206528b7262",
     "src/thermosphere_consequence/api/__init__.py": "763e75dbf2570804c642239fe84ee0ee4f62fdabc7b991dc6910d729479a9b42",
-    "src/thermosphere_consequence/api/app.py": "fd98f76121bf69bc55de7d4311ec6db8e8b5e02c0aa93787dddc989c38a092e3",
+    "src/thermosphere_consequence/api/app.py": "a58151cc59ad8b6b91d7f9fddfa2782b3acc2fe131176e870171003f0e3fa6a8",
     "src/thermosphere_consequence/api/models.py": "1139d4061a422c284fe9f7829bcca55c5a0e90decc6ecee01e0a6ba913c34689",
     "src/thermosphere_consequence/cli/__init__.py": "614cb2d3a392d9b7d804035d110a0ef6b2eacaa296edf40e94330eff83474ee3",
     "src/thermosphere_consequence/cli/commands_licence.py": "d6762780011c2fb0fc93620a9067aaeebd9f6a0d7b6eb0a32ec3725603c5f340",

@@ -391,7 +391,7 @@ def create_app() -> FastAPI:
                 "spacex_early_estimate_lost": event.SPACEX_EARLY_ESTIMATE_LOST,
                 "mass_kg_range": list(event.MASS_KG_RANGE),
                 "mass_kg_nominal": event.MASS_KG_NOMINAL,
-                "operator_fitted_inverse_ballistic_coefficient_m2_kg": (
+                "external_capella_reference_inverse_ballistic_coefficient_m2_kg": (
                     event.OPERATOR_FITTED_INVERSE_BALLISTIC_COEFFICIENT_M2_KG
                 ),
                 "cd_conventional": event.CD_CONVENTIONAL,
@@ -415,6 +415,10 @@ def create_app() -> FastAPI:
                 "disclosure, which is why it is carried as a range.",
                 "published_enhancement figures are what results are checked "
                 "AGAINST. They are never used as inputs.",
+                "external_capella_reference_inverse_ballistic_coefficient_m2_kg "
+                "(0.085 m^2/kg, Shambaugh 2024, arXiv:2406.08342, p. 6) is an "
+                "external literature reference for a Capella Space SAR (Whitney) "
+                "satellite, not a SpaceX/Starlink operator-fitted figure.",
             ],
         )
 
