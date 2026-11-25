@@ -1,0 +1,15 @@
+{
+  "schema": "waynestark-standalone-clean-install-receipt/1",
+  "repository": "starlink-thermosphere-orbital-decay",
+  "release_version": "1.0.0",
+  "status": "PASS",
+  "non_git_extraction_verified": true,
+  "python_version": "Python 3.13.9",
+  "editable_install_returncode": 0,
+  "imported_package_version": "0.1.0",
+  "verify_all_claims_returncode": 0,
+  "verify_all_claims_passed": true,
+  "pytest_returncode": 0,
+  "pytest_summary": "3 passed in 0.31s",
+  "offline_dependencies_from_host_venv": true
+}

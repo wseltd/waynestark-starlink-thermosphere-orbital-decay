@@ -1,0 +1,40 @@
+{
+  "baseline_threshold_km": 170.0,
+  "criterion": "worst-case Kn > 10.0",
+  "factor_two_band_km": [
+    155.0,
+    190.0
+  ],
+  "interpretation": "A factor of two in the cross-section - which is a factor of only sqrt(2) in the kinetic diameter - moves the supported endpoint from 170.0 km to between 155.0 and 190.0 km. The endpoint is a declared-bracket boundary, not a measured transition altitude, and this is the size of the declaration's influence on it.",
+  "method": "Kn = lambda/L with lambda = 1/(sqrt(2) n sigma), so Kn is exactly inversely proportional to sigma at fixed density and length. Scaling sigma by f is read off the stored profile as scaling every Kn by 1/f. No model is run and no new quantity is computed.",
+  "profile_resolution_km": 5.0,
+  "question": "How far does the supported endpoint move under a factor-two error in the collision cross-section?",
+  "results_by_scaling": {
+    "0.5": {
+      "cross_section_scaling": 0.5,
+      "kinetic_diameter_scaling": 0.7071067811865476,
+      "supported_threshold_km": 155.0
+    },
+    "0.707": {
+      "cross_section_scaling": 0.707,
+      "kinetic_diameter_scaling": 0.8408329203831163,
+      "supported_threshold_km": 160.0
+    },
+    "1": {
+      "cross_section_scaling": 1.0,
+      "kinetic_diameter_scaling": 1.0,
+      "supported_threshold_km": 170.0
+    },
+    "1.414": {
+      "cross_section_scaling": 1.414,
+      "kinetic_diameter_scaling": 1.18911731969558,
+      "supported_threshold_km": 180.0
+    },
+    "2": {
+      "cross_section_scaling": 2.0,
+      "kinetic_diameter_scaling": 1.4142135623730951,
+      "supported_threshold_km": 190.0
+    }
+  },
+  "what_this_does_not_establish": "Nothing about the true cross-sections. A factor of two is a plausible span for hard-sphere surrogates against real collision integrals; it is not an error bar, because no reference set was available to form one against."
+}

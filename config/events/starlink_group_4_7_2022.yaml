@@ -1,0 +1,595 @@
+# Starlink Group 4-7 (COSPAR 2022-010) — the February 2022 event constants.
+#
+# This file is the authority for every event number. It exists because those
+# numbers were hardcoded in a physics module, where a value and its provenance
+# drift apart the moment somebody edits one and not the other, and where there
+# is nowhere to put the sentence that actually matters: "0.085 m^2/kg is the
+# INVERSE ballistic coefficient, and it describes the operational constellation,
+# not these satellites in safe mode".
+#
+# CONVENTIONS, enforced by src/thermosphere_consequence/events/manifest_loader.py
+# and not merely described here:
+#
+#   units      Every numeric value is in SI, checked by converting 1.0 of the
+#              declared unit to base units and requiring the factor to be 1.
+#              So: metres, not kilometres. Radians, not degrees. Tesla, not
+#              nanotesla. Seconds, not hours. The conversions the reader
+#              expects are therefore visible in this file rather than hidden in
+#              a constant name. "count" and "dimensionless" are permitted;
+#              "utc" marks a timestamp and names its timescale; "identifier"
+#              marks a designator, which is a key and not a quantity.
+#
+#   timestamps Written as QUOTED ISO-8601 strings with an explicit offset. The
+#              loader parses them, not the YAML library: PyYAML's own timestamp
+#              handling has historically returned naive datetimes for offset
+#              input, and a naive timestamp in a storm-onset context is
+#              ambiguous by more than the event lasts. A timestamp without an
+#              offset is rejected; UTC is never assumed.
+#
+#   provenance Every value carries source, source_url, status and authority.
+#              A missing citation raises. An empty source_url is allowed ONLY
+#              with a note saying why there is not one — the honest case, e.g.
+#              a reference the repository holds without a DOI, has to be
+#              written down rather than papered over with a plausible link.
+#
+#   status     observed  — recorded by an observing system or public catalogue
+#              reported  — stated in a peer-reviewed paper or operator release
+#              derived   — computed here from another value in this file
+#              assumed   — a stated choice of this analysis, never an outcome
+#
+# NOT MIGRATED, deliberately:
+#   SOURCES — the module's citation table is subsumed: every value below names
+#   its own source, so a lookup table mapping topics to citations would be a
+#   second place for the same fact to live.
+
+schema_version: 1
+event_id: starlink_group_4_7_2022
+title: "Starlink Group 4-7 (COSPAR 2022-010), February 2022"
+
+# The mode this manifest licenses. Insertion-orbit work here is a bounded
+# construction from published elements, and the label below is itself checked
+# against the claim gate at load time.
+analysis_mode: scenario
+scenario_label: >-
+  Bounded insertion-orbit scenario for COSPAR 2022-010, propagated from the
+  published insertion elements under stated atmosphere and drag assumptions.
+  It is not a reconstruction of any spacecraft's path, carries no operator
+  telemetry, and is compared against the public catalogue only for the twenty-
+  one objects the catalogue ever recorded.
+
+values:
+
+  # --- launch and insertion ---------------------------------------------
+  launch_utc:
+    value: "2022-02-03T18:13:00Z"
+    units: utc
+    status: observed
+    authority: peer_reviewed
+    source: "Guarnieri et al. 2025, doi:10.5194/npg-32-75-2025"
+    source_url: "https://doi.org/10.5194/npg-32-75-2025"
+    module_constant: LAUNCH_UTC
+
+  deployment_utc:
+    value: "2022-02-03T18:28:00Z"
+    units: utc
+    status: observed
+    authority: peer_reviewed
+    source: "Guarnieri et al. 2025, doi:10.5194/npg-32-75-2025"
+    source_url: "https://doi.org/10.5194/npg-32-75-2025"
+    notes: >-
+      Fifteen minutes after launch. The deployment epoch, not the launch epoch,
+      is the initial condition for propagation.
+    module_constant: DEPLOYMENT_UTC
+
+  insertion_perigee_altitude:
+    value: 210000.0
+    units: m
+    status: reported
+    authority: peer_reviewed
+    source: "Guarnieri et al. 2025, doi:10.5194/npg-32-75-2025"
+    source_url: "https://doi.org/10.5194/npg-32-75-2025"
+    notes: >-
+      Geodetic altitude above the reference ellipsoid, as published. No formal
+      uncertainty is quoted with it in the source.
+    module_constant: INSERTION_PERIGEE_ALTITUDE_M
+
+  insertion_apogee_altitude:
+    value: 338000.0
+    units: m
+    status: reported
+    authority: peer_reviewed
+    source: "Guarnieri et al. 2025, doi:10.5194/npg-32-75-2025"
+    source_url: "https://doi.org/10.5194/npg-32-75-2025"
+    module_constant: INSERTION_APOGEE_ALTITUDE_M
+
+  insertion_inclination:
+    value: 0.9288642279113821
+    units: rad
+    status: reported
+    authority: peer_reviewed
+    source: "Guarnieri et al. 2025, doi:10.5194/npg-32-75-2025"
+    source_url: "https://doi.org/10.5194/npg-32-75-2025"
+    notes: >-
+      53.22 degrees, held here in radians because the manifest is SI. The
+      module constant it replaces is named ..._DEG and carries the degree
+      value; the conversion is asserted in tests/events/test_manifest_loader.py.
+    module_constant: INSERTION_INCLINATION_DEG
+
+  intended_operational_altitude:
+    value: 545000.0
+    units: m
+    status: reported
+    authority: peer_reviewed
+    source: "Guarnieri et al. 2025, doi:10.5194/npg-32-75-2025"
+    source_url: "https://doi.org/10.5194/npg-32-75-2025"
+    notes: >-
+      The altitude these satellites were raising toward. None of the storm-
+      window losses reached it.
+    module_constant: INTENDED_OPERATIONAL_ALTITUDE_M
+
+  # --- designators -------------------------------------------------------
+  cospar_id_prefix:
+    value: "2022-010"
+    units: identifier
+    status: observed
+    authority: primary
+    source: "CelesTrak SATCAT, international designator 2022-010"
+    source_url: "https://celestrak.org/satcat/records.php?INTDES=2022-010"
+    notes: >-
+      An earlier brief assumed NORAD range 51089-51137 for this launch. That is
+      wrong. Group 4-7 is COSPAR 2022-010, catalogue numbers approximately
+      51456-51476, with 2022-010A = NORAD 51456.
+    module_constant: COSPAR_ID_PREFIX
+
+  first_norad_id:
+    value: 51456
+    units: identifier
+    status: observed
+    authority: primary
+    source: "CelesTrak SATCAT, object 2022-010A"
+    source_url: "https://celestrak.org/satcat/records.php?INTDES=2022-010"
+    module_constant: FIRST_NORAD_ID
+
+  # --- fleet outcome -----------------------------------------------------
+  decay_date_resolution_s:
+    value: 86400.0
+    units: second
+    status: observed
+    authority: primary
+    source: "CelesTrak SATCAT records DECAY_DATE at DATE resolution only"
+    source_url: "https://celestrak.org/satcat/records.php?INTDES=2022-010"
+    module_constant: DECAY_DATE_RESOLUTION_S
+    notes: >-
+      The catalogue gives a decay DATE, not an instant. A decay recorded on
+      2022-02-06 occurred somewhere within that day, so any comparison against
+      a propagated lifetime carries at least +1 d of quantisation. Against an
+      observed spread of 3-13 d this is not negligible.
+
+  satellites_launched:
+    value: 49
+    units: count
+    status: reported
+    authority: peer_reviewed
+    source: "Guarnieri et al. 2025, doi:10.5194/npg-32-75-2025"
+    source_url: "https://doi.org/10.5194/npg-32-75-2025"
+    module_constant: SATELLITES_LAUNCHED
+
+  satellites_lost_peer_reviewed:
+    value: 38
+    units: count
+    status: reported
+    authority: peer_reviewed
+    source: "Guarnieri et al. 2025, doi:10.5194/npg-32-75-2025"
+    source_url: "https://doi.org/10.5194/npg-32-75-2025"
+    notes: >-
+      The peer-reviewed count. It differs from the operator's early estimate of
+      up to 40, recorded separately below. Both are kept: the difference is
+      information about how the count firmed up over time, not an error to be
+      resolved by preferring one.
+    module_constant: SATELLITES_LOST_PEER_REVIEWED
+
+  satellites_survived_peer_reviewed:
+    value: 11
+    units: count
+    status: reported
+    authority: peer_reviewed
+    source: "Guarnieri et al. 2025, doi:10.5194/npg-32-75-2025"
+    source_url: "https://doi.org/10.5194/npg-32-75-2025"
+    module_constant: SATELLITES_SURVIVED_PEER_REVIEWED
+
+  satellites_never_catalogued:
+    value: 32
+    units: count
+    status: reported
+    authority: peer_reviewed
+    source: "Guarnieri et al. 2025, doi:10.5194/npg-32-75-2025"
+    source_url: "https://doi.org/10.5194/npg-32-75-2025"
+    notes: >-
+      Thirty-two of the forty-nine never received public catalogue numbers. Any
+      comparison against the catalogue is therefore a comparison against a
+      subset, biased toward objects that survived long enough to be catalogued.
+    module_constant: SATELLITES_NEVER_CATALOGUED
+
+  spacex_early_estimate_lost:
+    value: 40
+    units: count
+    status: reported
+    authority: operator
+    source: >-
+      SpaceX, 'Geomagnetic Storm and Recently Deployed Starlink Satellites',
+      8 February 2022
+    source_url: ""
+    notes: >-
+      The operator's own early figure, phrased as "up to 40" — an upper bound
+      stated five days after launch, not a final count. No source_url: the
+      verbatim text is held via secondary quotation and the original page was
+      not independently retrieved by this project, so no link is asserted.
+    module_constant: SPACEX_EARLY_ESTIMATE_LOST
+
+  # --- spacecraft --------------------------------------------------------
+  mass_nominal:
+    value: 297.0
+    units: kg
+    status: reported
+    authority: third_party
+    source: "KeepTrack third-party estimate for NORAD 51456"
+    source_url: "https://keeptrack.space/satellite/51456"
+    uncertainty_low: 275.0
+    uncertainty_high: 303.0
+    notes: >-
+      A third-party estimate, not an operator disclosure, which is why it is
+      carried as a range and swept in the sensitivity envelope. The bounds are
+      the range the module holds as MASS_KG_RANGE.
+    module_constant: MASS_KG_NOMINAL
+
+  external_reference_inverse_ballistic_coefficient:
+    value: 0.085
+    units: m^2/kg
+    status: reported
+    authority: third_party_other_vehicle
+    source: >-
+      Shambaugh, W. S. (2024), "Doing Battle with the Sun: Lessons From LEO and
+      Operating a Satellite Constellation in the Elevated Atmospheric Drag
+      Environment of Solar Cycle 25", arXiv:2406.08342 v1, p. 5. A CAPELLA
+      SPACE paper. NOT SpaceX, NOT Starlink.
+    source_url: "https://arxiv.org/abs/2406.08342"
+    source_sha256: "c76e7848dc4c3b41f2f0d7e48a2d7001f67eecea0e32dbbd73196ffd3784c9d5"
+    notes: >-
+      CORRECTED 11 Sep 2026, AND RENAMED. This entry was previously called
+      operator_published_inverse_ballistic_coefficient, with authority
+      "operator" and the source "arXiv:2406.08342 (SpaceX constellation
+      retrospective)". Every part of that was wrong, and the paper was never
+      retrieved until now.
+
+      WHOSE NUMBER IT IS. arXiv:2406.08342 is a single-author paper by
+      W. S. Shambaugh about CAPELLA SPACE, which operates Synthetic Aperture
+      Radar smallsats carrying large deployable wire-mesh radar reflectors. The
+      0.085 figure is Capella's WHITNEY-generation satellite. It is not a
+      Starlink value, it is not from the operator of these spacecraft, and it
+      describes a vehicle of a different class.
+
+      WHAT THE PAPER ACTUALLY SAYS, p. 5, verbatim: "After launch, the
+      ballistic coefficient was measured by fitting modeled satellite altitude
+      decay using the NRLMSISE-00 density model [10] against measured orbit
+      data, resulting in ballistic coefficient C_B = 0.085 m2/kg. From the
+      satellite mass and updated area estimate, this implies a coefficient of
+      drag of C_d = 2.7 ... but is also 44% higher than originally estimated."
+
+      THREE CONSEQUENCES FOR ANY USE OF IT.
+      (1) It is ITSELF AN NRLMSISE-00-CONDITIONED FIT, not an independent
+      measurement. Using it as an out-of-sample anchor against an MSIS-family
+      model is circular, which is the opposite of what this project previously
+      claimed for it.
+      (2) It is an ORIENTATION AVERAGE, not an attitude-specific value. p. 4:
+      "the ConOps result in a random orientation of the spacecraft to the
+      airstream, the overall effective area of the spacecraft was taken to be
+      the average of these faces". The previous note calling it "the
+      OPERATIONAL constellation in normal flight attitude" was invented.
+      (3) It is referenced to a 525 km insertion altitude, not to 210 km.
+
+      UNITS, unchanged and still worth stating: the paper prints the symbol
+      C_B with units m^2/kg, which is dimensionally C_d*A/m and NOT the
+      reciprocal B = m/(C_d*A) in kg/m^2. The loader passes this name and these
+      units through the claim gate, so a rename that dropped "inverse" would
+      fail to load.
+    module_constant: OPERATOR_FITTED_INVERSE_BALLISTIC_COEFFICIENT_M2_KG
+
+  external_reference_ballistic_coefficient:
+    value: 11.76470588235294
+    units: kg/m^2
+    status: derived
+    authority: derived
+    source: >-
+      Reciprocal of external_reference_inverse_ballistic_coefficient
+      (Shambaugh 2024, arXiv:2406.08342, p. 5)
+    source_url: "https://arxiv.org/abs/2406.08342"
+    notes: >-
+      The conventional ballistic coefficient of the SAME CAPELLA SATELLITE,
+      carried explicitly so a reader who wants B gets it in kg/m^2 rather than
+      the reciprocal under the wrong name. It is not a Starlink quantity.
+    module_constant: OPERATOR_FITTED_BALLISTIC_COEFFICIENT_KG_M2
+
+  cd_conventional:
+    value: 2.2
+    units: dimensionless
+    status: assumed
+    authority: peer_reviewed
+    source: "Cook 1965, doi:10.1016/0032-0633(65)90150-9"
+    source_url: "https://doi.org/10.1016/0032-0633(65)90150-9"
+    uncertainty_low: 1.8
+    uncertainty_high: 3.9
+    notes: >-
+      Retained as a floor rather than a truth. Cook himself wrote that 2.2 "is
+      subject to some uncertainty and may be too low, perhaps by as much as
+      10-15 percent". The bounds are the sensitivity range the module holds as
+      CD_SENSITIVITY_RANGE, and they are wider than Cook's remark because
+      free-molecular C_d on adsorbed-oxygen surfaces can run considerably
+      higher.
+    module_constant: CD_CONVENTIONAL
+
+  # --- storm indices, as reported ----------------------------------------
+  # Used to sanity-check ingestion. They are never inputs to a result.
+  reported_peak_sym_h:
+    value: -8.0e-08
+    units: tesla
+    status: reported
+    authority: unverified
+    source: "Fang et al. 2022, doi:10.1029/2022SW003193 (storm characterisation)"
+    source_url: "https://doi.org/10.1029/2022SW003193"
+    notes: >-
+      -80 nT, held in tesla because the manifest is SI. Marked unverified: the
+      figure is carried from this repository's earlier literature summary and
+      this migration did not re-check it against the paper. It is used only as
+      an ingestion sanity check.
+    module_constant: REPORTED_PEAK_SYM_H_NT
+
+  reported_peak_kp:
+    value: 5.0
+    units: dimensionless
+    status: reported
+    authority: peer_reviewed
+    source: "Fang et al. 2022, doi:10.1029/2022SW003193"
+    source_url: "https://doi.org/10.1029/2022SW003193"
+    module_constant: REPORTED_PEAK_KP
+
+  reported_kp_ge_5_duration:
+    value: 21600.0
+    units: s
+    status: reported
+    authority: peer_reviewed
+    source: "Fang et al. 2022, doi:10.1029/2022SW003193"
+    source_url: "https://doi.org/10.1029/2022SW003193"
+    notes: >-
+      Six hours, held in seconds because the manifest is SI. Fang et al. report
+      Kp 5 for more than six hours on both 3 and 4 February.
+    module_constant: REPORTED_KP_GE_5_HOURS
+
+  # --- analysis choices --------------------------------------------------
+  # Not observations. These are decisions this project made, recorded here so
+  # they can be argued with instead of being found by reading the scripts.
+  analysis_window_start_utc:
+    value: "2022-02-02T00:00:00Z"
+    units: utc
+    status: assumed
+    authority: derived
+    source: "Analysis choice, as implemented in scripts/run_full_analysis.py"
+    source_url: ""
+    notes: >-
+      The density-enhancement evaluation window opens a day before launch so
+      the quiet baseline is established before storm onset. No source_url: this
+      is a choice of this analysis, not a citation.
+
+  analysis_window_end_utc:
+    value: "2022-02-08T00:00:00Z"
+    units: utc
+    status: assumed
+    authority: derived
+    source: "Analysis choice, as implemented in scripts/run_full_analysis.py"
+    source_url: ""
+    notes: >-
+      Closes after the last storm-window decay that the enhancement comparison
+      needs. It does not span the whole catalogued decay table, which runs to
+      16 February 2022. No source_url: this is a choice, not a citation.
+
+  storm_characterisation_window_start_utc:
+    value: "2022-02-02T00:00:00Z"
+    units: utc
+    status: assumed
+    authority: derived
+    source: "Analysis choice, as implemented in scripts/run_full_analysis.py"
+    source_url: ""
+    notes: >-
+      The window over which peak Kp, peak ap and hours above Kp 5 are
+      summarised. No source_url: this is a choice, not a citation.
+
+  storm_characterisation_window_end_utc:
+    value: "2022-02-06T00:00:00Z"
+    units: utc
+    status: assumed
+    authority: derived
+    source: "Analysis choice, as implemented in scripts/run_full_analysis.py"
+    source_url: ""
+    notes: >-
+      Shorter than the density-enhancement window: the storm summary covers the
+      disturbed interval, not the whole decay comparison. No source_url: this
+      is a choice, not a citation.
+
+  storm_loss_window:
+    value: 2592000.0
+    units: s
+    status: assumed
+    authority: derived
+    source: "Analysis choice, as implemented in GroundTruthDecay.is_storm_loss"
+    source_url: ""
+    notes: >-
+      Thirty days, in seconds. An object that decayed within this interval of
+      launch is counted as an insertion-altitude loss. The two 2022-010 objects
+      that decayed in 2023 and 2024 reached operational altitude first and were
+      lost for unrelated reasons; folding them in would overstate the event.
+      No source_url: this is a choice, not a citation.
+
+# --- the catalogue ------------------------------------------------------
+# The only genuinely observational anchor in the whole chain: not a model
+# output and not a literature claim, but what the public catalogue recorded
+# happening. Provenance is carried once for the table because every row came
+# from the same query.
+decay_table:
+  status: observed
+  authority: primary
+  source: "CelesTrak SATCAT, international designator 2022-010"
+  source_url: "https://celestrak.org/satcat/records.php?INTDES=2022-010"
+  launch_date: "2022-02-03"
+  notes: >-
+    Twenty-one of the forty-nine launched objects ever received public
+    catalogue numbers. decay_date null means the object had not decayed as of
+    retrieval, which is a different statement from "survived the storm".
+  records:
+    - {norad_id: 51456, object_id: "2022-010A", decay_date: "2022-02-06"}
+    - {norad_id: 51457, object_id: "2022-010B", decay_date: "2022-02-08"}
+    - {norad_id: 51458, object_id: "2022-010C", decay_date: "2022-02-06"}
+    - {norad_id: 51459, object_id: "2022-010D", decay_date: "2022-02-07"}
+    - {norad_id: 51460, object_id: "2022-010E", decay_date: "2024-12-24"}
+    - {norad_id: 51461, object_id: "2022-010F", decay_date: null}
+    - {norad_id: 51462, object_id: "2022-010G", decay_date: null}
+    - {norad_id: 51463, object_id: "2022-010H", decay_date: null}
+    - {norad_id: 51464, object_id: "2022-010J", decay_date: null}
+    - {norad_id: 51465, object_id: "2022-010K", decay_date: null}
+    - {norad_id: 51466, object_id: "2022-010L", decay_date: "2022-02-09"}
+    - {norad_id: 51467, object_id: "2022-010M", decay_date: null}
+    - {norad_id: 51468, object_id: "2022-010N", decay_date: null}
+    - {norad_id: 51469, object_id: "2022-010P", decay_date: null}
+    - {norad_id: 51470, object_id: "2022-010Q", decay_date: "2022-02-12"}
+    - {norad_id: 51471, object_id: "2022-010R", decay_date: "2023-10-17"}
+    - {norad_id: 51472, object_id: "2022-010S", decay_date: null}
+    - {norad_id: 51473, object_id: "2022-010T", decay_date: "2022-02-16"}
+    - {norad_id: 51474, object_id: "2022-010U", decay_date: "2022-02-16"}
+    - {norad_id: 51475, object_id: "2022-010V", decay_date: "2022-02-14"}
+    - {norad_id: 51476, object_id: "2022-010W", decay_date: "2022-02-16"}
+
+# --- published enhancement figures --------------------------------------
+# What the modelled density response is checked AGAINST. They are never used as
+# inputs, and they are not this project's results.
+published_enhancement:
+  # ORIGINAL ALTITUDE ROWS, as each source reports them. An earlier version of
+  # this section merged He et al.'s 200 km and 300 km results into single
+  # 200-300 km bands, which let a linear interpolation produce "published
+  # values at 210 km" that no paper states. Nothing here spans two altitudes
+  # except Fang et al.'s domain range, which is explicitly not a profile.
+  - reference: "Fang et al. 2022 WAM-IPE (200-400 km domain range)"
+    fraction_low: 0.50
+    fraction_high: 1.25
+    basis: modelled
+    status: reported
+    authority: peer_reviewed
+    source: "Fang et al. 2022, doi:10.1029/2022SW003193"
+    source_url: "https://doi.org/10.1029/2022SW003193"
+    notes: >-
+      Abstract (p. 1) and Conclusions (p. 13): the enhancement "ranged from 50%
+      to 125%, depending on location and altitude". A CONTEXTUAL RANGE OVER A
+      DOMAIN, not an altitude profile: the span varies with location as well as
+      height, so it states no value at 210 km and none may be read from it.
+      Baseline is a 10-day model mean at the same UT.
+
+  - reference: "Fang et al. 2022 NRLMSISE-00 (210 km)"
+    fraction_low: 0.0
+    fraction_high: 0.20
+    basis: modelled
+    status: reported
+    authority: peer_reviewed
+    source: "Fang et al. 2022, doi:10.1029/2022SW003193"
+    source_url: "https://doi.org/10.1029/2022SW003193"
+    notes: >-
+      Section 4 (p. 7), Figure 5 at 210 km, 11:50 UT 4 February 2022: "MSIS-00
+      only showed up to 20% enhancement in the density". The only published
+      figure in this table at exactly the staging altitude, and the only one for
+      the model this project runs. Reported as an upper bound, hence 0-20%.
+      Quantity is the maximum of a global field at one instant; baseline is a
+      10-day model mean.
+
+  - reference: "He et al. 2023 MSIS2.0 (200 km)"
+    fraction_low: 0.10
+    fraction_high: 0.15
+    basis: modelled
+    status: reported
+    authority: peer_reviewed
+    source: "He et al. 2023, doi:10.1029/2023SW003521"
+    source_url: "https://doi.org/10.1029/2023SW003521"
+    notes: >-
+      Section 3 (p. 14), Figure 9: "For MSIS2.0, it shows ~10%-15% enhancement
+      during the two storm days". Global-averaged maximum of a zonal-mean field,
+      relative to the 1-2 February reference days.
+
+  - reference: "He et al. 2023 MSIS2.0 (300 km)"
+    fraction_low: 0.20
+    fraction_high: 0.25
+    basis: modelled
+    status: reported
+    authority: peer_reviewed
+    source: "He et al. 2023, doi:10.1029/2023SW003521"
+    source_url: "https://doi.org/10.1029/2023SW003521"
+    notes: >-
+      Section 3 (pp. 14-15), Figure 10: "~20% and ~25% for MSIS2.0" on 3 and 4
+      February. 90 km above the staging altitude. THIS PAIR WAS PREVIOUSLY
+      CARRIED AS A 20-25% BAND ACROSS 200-300 km, which placed the supposed
+      published value at 210 km near 20.5%; the source supports no such figure.
+
+  - reference: "He et al. 2023 CTIPe/MAGE model average (200 km)"
+    fraction_low: 0.35
+    fraction_high: 0.35
+    basis: modelled
+    status: reported
+    authority: peer_reviewed
+    source: "He et al. 2023, doi:10.1029/2023SW003521"
+    source_url: "https://doi.org/10.1029/2023SW003521"
+    notes: >-
+      Section 3 (p. 15): "the global averaged maximum density enhancement based
+      on the average value of both the CTIPe and the MAGE models, which can be
+      up to ~35% at 200 and ~60% at 300 km during the two storm days". THREE
+      averaging operations: over MODELS (two), over SPACE (zonal then global
+      mean), maximised over TIME (the two storm days). Single reported value,
+      hence equal bounds. CORRECTED ATTRIBUTION: this figure was credited to
+      "Girgis et al. 2023 (Space Weather Starlink collection)" with no DOI and a
+      basis of "modelled+observed"; all three were wrong.
+
+  - reference: "He et al. 2023 CTIPe/MAGE model average (300 km)"
+    fraction_low: 0.60
+    fraction_high: 0.60
+    basis: modelled
+    status: reported
+    authority: peer_reviewed
+    source: "He et al. 2023, doi:10.1029/2023SW003521"
+    source_url: "https://doi.org/10.1029/2023SW003521"
+    notes: >-
+      The 300 km end of the same sentence, 90 km above the staging altitude.
+      Single reported value, hence equal bounds. Same corrected attribution as
+      the 200 km row.
+
+  - reference: "Swarm-A accelerometer (~438 km)"
+    fraction_low: 1.10
+    fraction_high: 1.10
+    basis: observed
+    status: reported
+    authority: peer_reviewed
+    source: "He et al. 2023, doi:10.1029/2023SW003521"
+    source_url: "https://doi.org/10.1029/2023SW003521"
+    notes: >-
+      Abstract and Key Points (p. 1), 09/21 LT sector. CORRECTED ATTRIBUTION:
+      previously credited to "Girgis et al. 2023". An instrument is not a
+      citable source; the paper reporting the measurement is. A DIFFERENT
+      instrument and spacecraft from the GRACE-FO row - one paper reports both,
+      and they remain two pieces of evidence. Kept at its own sampling altitude,
+      228 km above the insertion altitude; no mapping to 210 km is applied.
+
+  - reference: "GRACE-FO accelerometer (~505 km)"
+    fraction_low: 1.20
+    fraction_high: 1.20
+    basis: observed
+    status: reported
+    authority: peer_reviewed
+    source: "He et al. 2023, doi:10.1029/2023SW003521"
+    source_url: "https://doi.org/10.1029/2023SW003521"
+    notes: >-
+      Abstract and Key Points (p. 1), 06/18 LT sector. CORRECTED ATTRIBUTION:
+      previously credited to "Girgis et al. 2023". A different spacecraft,
+      instrument, altitude and local-time sector from the Swarm-A row. Kept at
+      its own sampling altitude, 300 km above the insertion altitude.

@@ -1,0 +1,69 @@
+{
+  "force_over_density_ratio": 0.9786838382272467,
+  "integer_mass_numbers": {
+    "mass_density_kg_m3": 1.9425283049885018e-10,
+    "per_species_force_n": {
+      "Ar": 8.504199725098049e-05,
+      "H": 1.8960627462883443e-07,
+      "He": 7.12716585246724e-05,
+      "N": 0.000707543869421358,
+      "N2": 0.07926212997731243,
+      "NO": 6.985014401217979e-05,
+      "O": 0.06482486927727728,
+      "O2": 0.007257266927045983,
+      "anomalous_O": 6.83616599098506e-19
+    },
+    "speed_ratios": {
+      "Ar": 12.093493313535097,
+      "H": 1.9121491869393854,
+      "He": 3.824298373878771,
+      "N": 7.154607129925537,
+      "N2": 10.118142436591938,
+      "NO": 10.473272430018639,
+      "O": 7.648596747757542,
+      "O2": 10.816749253801461,
+      "anomalous_O": 7.648596747757542
+    },
+    "total_force_n": 0.1522781634571195
+  },
+  "method": "Same number densities, temperature, speed, geometry, attitude, kernel and accommodation; only the species mass table differs. No atmosphere model is called and no propagation is run.",
+  "msis_cipm_2007_masses": {
+    "mass_density_kg_m3": 1.9429832380698718e-10,
+    "per_species_force_n": {
+      "Ar": 8.493285431195879e-05,
+      "H": 1.8960627468080583e-07,
+      "He": 7.127165854769182e-05,
+      "N": 0.0007078734582572767,
+      "N2": 0.07929943807971923,
+      "NO": 6.986412418331766e-05,
+      "O": 0.0648224974381189,
+      "O2": 0.007256998858733523,
+      "anomalous_O": 6.835915866513212e-19
+    },
+    "speed_ratios": {
+      "Ar": 12.085629988557166,
+      "H": 1.912149187269784,
+      "He": 3.824298374539568,
+      "N": 7.156318921660582,
+      "N2": 10.120563275679597,
+      "NO": 10.474337160404595,
+      "O": 7.648453336545587,
+      "O2": 10.81654643972052,
+      "anomalous_O": 7.648453336545587
+    },
+    "total_force_n": 0.15231306607814657
+  },
+  "question": "Holding the state fixed, what force difference does this project's integer-mass-number convention produce against NRLMSIS 2.1's own CIPM 2007 masses?",
+  "relative_force_difference": -0.00022915053793979236,
+  "relative_mass_density_difference": -0.00023414153681628947,
+  "state": {
+    "alpha": 0.998,
+    "altitude_m": 210000.0,
+    "pitch_deg": 30.0,
+    "relative_speed_m_s": 7495.2345988594825,
+    "temperature_k": 923.9803476408316,
+    "wall_temperature_k": 300.0
+  },
+  "what_this_does_not_establish": "Any end-to-end propagation bias. A trajectory integrates the force over a changing state and a systematic force offset does not map linearly onto a threshold-crossing time. No crossing-time claim is made from this.",
+  "why_they_differ": "If drag were simply linear in density at fixed everything else, these two relative differences would be equal and their ratio exactly 1. They are not, because s_j is proportional to sqrt(m_j), so changing the masses also moves every speed ratio and hence every per-species coefficient. The ratio reported above is the measured size of that departure."
+}

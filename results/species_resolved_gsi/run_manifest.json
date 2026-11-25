@@ -1,0 +1,97 @@
+{
+  "accommodation": {
+    "branch_A": "Pilinski altitude prior, both activity columns",
+    "branch_B": "langmuir_ao_historical_coefficient_transfer_sensitivity",
+    "diagnostic_beam_over_ambient_ratio": 51.77317083728267,
+    "diagnostic_directed_beam_temperature_k": 47837.39238870061,
+    "factorial_A_axis": "LangmuirAOAccommodation at n_O(quiet) vs n_O(storm)",
+    "factorial_alpha_quiet": 0.9953504176382777,
+    "factorial_alpha_storm": 0.9953551485553377,
+    "factorial_isotherm_temperature_convention": "AMBIENT freestream neutral temperature, per the published partial-pressure form P_O = n_AO T_inf (R / M_AO); held FIXED across all eight factorial corners, so the A axis varies n_O alone and does not couple to the composition axis",
+    "factorial_isotherm_temperature_k": 923.9803476408316,
+    "factorial_n_o_quiet_m3": 3089143338139101.0,
+    "factorial_n_o_storm_m3": 3092304418691939.0,
+    "wall_temperatures_k": [
+      200.0,
+      300.0,
+      375.0,
+      450.0
+    ]
+  },
+  "ao_dual_role": {
+    "ao_density_accommodation_interaction_n": -5.889089054605945e-08,
+    "ao_surface_state_effect_n": -9.04727498862723e-07,
+    "direct_O_force_fraction": 0.4255300503396608,
+    "direct_O_momentum_flux_pa": 0.002307766086153349,
+    "note": "direct role: O's own momentum flux and drag-force share; indirect role: O changing the AO-conditioned accommodation of ALL species (the factorial accommodation main effect and its interactions). Never combined into one unlabelled number."
+  },
+  "atmosphere_models": {
+    "primary": "NRLMSIS 2.1 (species incl. NO)",
+    "repeats": [
+      "NRLMSIS 2.0",
+      "NRLMSISE-00"
+    ],
+    "wam_ipe": "total density only in this archive product; hybrid labelled WAM_IPE_total_density_with_NRLMSIS_composition_sensitivity"
+  },
+  "base_tag": "starlink-thermosphere-nrlmsis2-finalised-20260824",
+  "cll_supported_mass_fraction_at_peak": 0.9989745325610737,
+  "density_closure_fraction_at_peak": 0.00022735823570640254,
+  "event_window_utc": [
+    "2022-02-02T00:00:00+00:00",
+    "2022-02-08T00:00:00+00:00"
+  ],
+  "factorial_effects_n": {
+    "baseline_quiet_force_n": 0.13391132258662392,
+    "full_storm_force_n": 0.15246536987286774,
+    "interaction_composition_accommodation_n": -5.079808747254777e-09,
+    "interaction_density_accommodation_n": -5.889089054605945e-08,
+    "interaction_density_composition_n": -5.621768309684028e-06,
+    "interaction_three_way_n": -3.3065698096246265e-10,
+    "main_accommodation_n": -9.04727498862723e-07,
+    "main_composition_n": -8.636596145136788e-05,
+    "main_density_n": 0.018641318305851057
+  },
+  "fixed_point": {
+    "altitude_m": 210000.0,
+    "latitude_deg": 53.22,
+    "longitude_deg": 0.0
+  },
+  "flow_convention": {
+    "corotation_speed_m_s": 287.3337318534231,
+    "orbital_speed_m_s": 7782.568330712906,
+    "relative_speed_m_s": 7495.2345988594825,
+    "wind": "u_wind = 0 labelled baseline; parametric envelope in wind_sensitivity.csv"
+  },
+  "gamma_eff_scalar_m2_kg": 0.085,
+  "generated_by": "scripts/run_species_gsi_reanalysis.py",
+  "geometry": {
+    "assumption_status": "Starlink-LIKE public-data proxy: every dimension is a round-number assumption representing the publicly reported vehicle class (flat-panel bus, single large array), NOT SpaceX data, NOT the proprietary geometry; per-mass quantities anchor to the operator-published inverse ballistic coefficient, not to an assumed mass-area pairing",
+    "dimensions_m": {
+      "array_chord": 2.8,
+      "array_offset": 1.0,
+      "array_span": 8.0,
+      "bus_height": 0.2,
+      "bus_length": 2.8,
+      "bus_width": 1.4
+    },
+    "facet_count": 8,
+    "name": "Starlink-like public-data proxy geometry",
+    "reference_area_m2": 26.319999999999997,
+    "surface_classes": [
+      "bus_ao_conditioned_oxide_or_coating",
+      "metallic_structure_ao_conditioned_al_oxide",
+      "polymer_or_mli_ao_aged_proxy",
+      "solar_array_glass_or_oxide"
+    ]
+  },
+  "git_commit": "cb589a67d0382d174d4f3bfa1bac4b34f8a2900a",
+  "git_commit_note": "HEAD when this run executed; outputs and generator are committed together as its child",
+  "kernels": {
+    "limits": "specular (mathematical limiting case only)",
+    "nominal": "sentman_diffuse (Koppenwallner half variant)",
+    "uncertainty": "cll (Walker-Mehta-Koller closed form; alpha_N x sigma_T swept; unsupported species excluded and reported)"
+  },
+  "mass_kg": 297.0,
+  "mass_note": "event nominal mass; per-mass quantities also anchored to the operator-published inverse ballistic coefficient in the scalar branch",
+  "peak_epoch_utc": "2022-02-04T14:00:00+00:00"
+}

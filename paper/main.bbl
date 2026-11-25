@@ -1,0 +1,115 @@
+\begin{thebibliography}{20}
+\providecommand{\natexlab}[1]{#1}
+\providecommand{\url}[1]{\texttt{#1}}
+\expandafter\ifx\csname urlstyle\endcsname\relax
+  \providecommand{\doi}[1]{doi: #1}\else
+  \providecommand{\doi}{doi: \begingroup \urlstyle{rm}\Url}\fi
+
+\bibitem[Baruah et~al.(2024)Baruah, Roy, Sinha, Palmerio, Pal, Oliveira, and
+  Nandy]{baruah2024}
+Yoshita Baruah, Souvik Roy, Suvadip Sinha, Erika Palmerio, Sanchita Pal,
+  Denny~M. Oliveira, and Dibyendu Nandy.
+\newblock The loss of {Starlink} satellites in {February} 2022: How moderate
+  geomagnetic storms can adversely affect assets in low-{Earth} orbit.
+\newblock \emph{Space Weather}, 22\penalty0 (4):\penalty0 e2023SW003716, 2024.
+\newblock \doi{10.1029/2023SW003716}.
+
+\bibitem[{CCMC}(2026)]{ccmcwamipe}
+{Community Coordinated Modeling Center (CCMC)}.
+\newblock {WAM-IPE} Forecast System (WFS) operational run for {NOAA} {SWPC},
+  July 2021--2022: fixed-height postprocessed neutral density (\texttt{WAM-IPE-July2021-22}), 2026.
+\newblock URL \url{https://ccmc.gsfc.nasa.gov/}.
+
+\bibitem[{CelesTrak}(2026)]{celestrak}
+{CelesTrak}.
+\newblock Daily space-weather data file (\texttt{SW-Last5Years.csv}), 2026.
+\newblock URL \url{https://celestrak.org/SpaceData/SW-Last5Years.csv}.
+
+\bibitem[Emmert et~al.(2021)]{emmert2021}
+J.~T. Emmert, D.~P. Drob, J.~M. Picone, D.~E. Siskind, M.~Jones~Jr., M.~G.
+  Mlynczak, et~al.
+\newblock {NRLMSIS} 2.0: A whole-atmosphere empirical model of temperature and
+  neutral species densities.
+\newblock \emph{Earth and Space Science}, 8\penalty0 (3):\penalty0
+  e2020EA001321, 2021.
+\newblock \doi{10.1029/2020EA001321}.
+
+\bibitem[Emmert et~al.(2022)]{emmert2022}
+J.~T. Emmert, M.~Jones~Jr., D.~P. Drob, J.~M. Picone, D.~E. Siskind, M.~G.
+  Mlynczak, et~al.
+\newblock {NRLMSIS} 2.1: Empirical model of nitric oxide incorporated into
+  {MSIS}.
+\newblock \emph{Journal of Geophysical Research: Space Physics}, 127\penalty0
+  (10):\penalty0 e2022JA030896, 2022.
+\newblock \doi{10.1029/2022JA030896}.
+
+\bibitem[Fang et~al.(2022)Fang, Kubaryk, Goldstein, Li, Fuller-Rowell,
+  Millward, Singer, Steenburgh, Westerman, and Babcock]{fang2022}
+Tzu-Wei Fang, Adam Kubaryk, David Goldstein, Zhuxiao Li, Tim Fuller-Rowell,
+  George Millward, Howard~J. Singer, Robert Steenburgh, Solomon Westerman, and
+  Erik Babcock.
+\newblock Space weather environment during the {SpaceX} {Starlink} satellite
+  loss in {February} 2022.
+\newblock \emph{Space Weather}, 20\penalty0 (11):\penalty0 e2022SW003193, 2022.
+\newblock \doi{10.1029/2022SW003193}.
+
+\bibitem[{GFZ German Research Centre for Geosciences}(2026)]{gfzkp}
+{GFZ German Research Centre for Geosciences}.
+\newblock {$K_p$} and $ap$ geomagnetic indices (CC~BY~4.0; Matzka et~al., 2021, doi:10.5880/Kp.0001), 2026.
+\newblock URL \url{https://kp.gfz.de/}.
+
+\bibitem[Guarnieri et~al.(2023)]{guarnieri2023v1}
+Fernando Guarnieri, Bruce~T. Tsurutani, Rajkumar Hajra, Ezequiel Echer, and Gurbax~S. Lakhina.
+\newblock NORAD Tracking of the February 2022 Starlink Satellites (and the Possible Immediate Loss of 32 Satellites).
+\newblock Preprint, arXiv:2307.02923v1, 2023.
+\newblock URL \url{https://arxiv.org/abs/2307.02923v1}.
+
+\bibitem[Guarnieri et~al.(2025)]{guarnieri2025}
+F.~L. Guarnieri, B.~T. Tsurutani, R.~Hajra, E.~Echer, and G.~S. Lakhina.
+\newblock NORAD tracking of the 2022 February Starlink satellites and the
+  immediate loss of 32 satellites.
+\newblock \emph{Nonlinear Processes in Geophysics}, 32:\penalty0 75--88, 2025.
+\newblock \doi{10.5194/npg-32-75-2025}.
+
+\bibitem[He et~al.(2023)He, Astafyeva, Yue, Pedatella, Lin, Fuller-Rowell,
+  Fedrizzi, Codrescu, Doornbos, Siemes, Bruinsma, Pitout, and Kubaryk]{he2023}
+Jianhui He, Elvira Astafyeva, Xinan Yue, Nicholas~M. Pedatella, Dong Lin,
+  Timothy~J. Fuller-Rowell, Mariangel Fedrizzi, Mihail Codrescu, Eelco
+  Doornbos, Christian Siemes, Sean Bruinsma, Frederic Pitout, and Adam Kubaryk.
+\newblock Comparison of empirical and theoretical models of the thermospheric
+  density enhancement during the 3--4 {February} 2022 geomagnetic storm.
+\newblock \emph{Space Weather}, 21\penalty0 (9):\penalty0 e2023SW003521, 2023.
+\newblock \doi{10.1029/2023SW003521}.
+
+\bibitem[Nager et~al.(2026)Nager, Kirk, and Kilic]{nager2026}
+Kylie Nager, James Kirk, and Cagri Kilic.
+\newblock {HELIO}: {AI} solar weather forecasting for proactive small satellite
+  constellation response.
+\newblock In \emph{Proceedings of the Annual Small Satellite Conference
+  (SmallSat 2026)}, Paper SSC26-P2-26, Salt Lake City, UT, August 2026.
+
+\bibitem[Picone et~al.(2002)Picone, Hedin, Drob, and Aikin]{picone2002}
+J.~M. Picone, A.~E. Hedin, D.~P. Drob, and A.~C. Aikin.
+\newblock {NRLMSISE-00} empirical model of the atmosphere: Statistical
+  comparisons and scientific issues.
+\newblock \emph{Journal of Geophysical Research: Space Physics}, 107\penalty0
+  (A12):\penalty0 1468, 2002.
+\newblock \doi{10.1029/2002JA009430}.
+
+\bibitem[Sentman(1961)]{sentman1961}
+L.~H. Sentman.
+\newblock Free molecule flow theory and its application to the determination of
+  aerodynamic forces.
+\newblock Technical Report LMSC-448514 (DTIC AD0265409), Lockheed Missiles and Space Company,
+  1961.
+\newblock \doi{10.21236/ad0265409}.
+
+\bibitem[Shambaugh(2024)]{shambaugh2024}
+W.~Scott Shambaugh.
+\newblock Doing battle with the sun: Lessons from {LEO} and operating a
+  satellite constellation in the elevated atmospheric drag environment of solar
+  cycle 25.
+\newblock Preprint, arXiv:2406.08342v1 (4S Symposium 2024), 2024.
+\newblock URL \url{https://arxiv.org/abs/2406.08342}.
+
+\end{thebibliography}

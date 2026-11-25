@@ -1,0 +1,21 @@
+cff-version: 1.2.0
+message: "If you use this software or manuscript, please cite the v1.0.0 release (Zenodo DOI minted upon public release tag v1.0.0)."
+type: software
+title: "Atmospheric Model Response and Conditional Orbital Consequences of the February 2022 Starlink Deployment"
+version: "1.0.0"
+date-released: "2026-11-24"
+license: Apache-2.0
+repository-code: "https://github.com/wseltd/starlink-thermosphere-orbital-decay"
+authors:
+  - family-names: "Aydogan"
+    given-names: "Onur A. W."
+    affiliation: "Waynestark Enterprises Limited"
+    email: "onur@wselimited.com"
+abstract: "Standalone open-source code, derived evidence, manuscript source/PDF, and independent verification suite for thermospheric model comparisons (NRLMSISE-00, NRLMSIS 2.0/2.1, WAM-IPE) and paired quiet-versus-storm orbital threshold-crossing sensitivity during the February 2022 Starlink Group 4-7 event."
+keywords:
+  - thermosphere
+  - geomagnetic-storm
+  - orbital-decay
+  - nrlmsis
+  - wam-ipe
+  - reproducibility

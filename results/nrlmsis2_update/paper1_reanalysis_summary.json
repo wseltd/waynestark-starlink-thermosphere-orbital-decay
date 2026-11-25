@@ -1,0 +1,260 @@
+{
+  "conclusions_classification": {
+    "nrlmsis_2_0": {
+      "peak_enhancement_vs_msise00": "slight",
+      "storm_decay_vs_msise00": "slight"
+    },
+    "nrlmsis_2_1": {
+      "peak_enhancement_vs_msise00": "slight",
+      "storm_decay_vs_msise00": "slight"
+    }
+  },
+  "delta_baseline_samples": {
+    "nrlmsis_2_0": 72,
+    "nrlmsis_2_1": 72,
+    "nrlmsise00": 72,
+    "wam_ipe": 24
+  },
+  "first_orbit_fixed_path": {
+    "nrlmsis_2_0": {
+      "by_altitude_band": {
+        "200-250 km": 0.0953628306881056,
+        "250-300 km": 0.13927166765881613,
+        "300-350 km": 0.19712362141015088
+      },
+      "mean_enhancement_fraction": 0.14620809749239302,
+      "n_samples": 181,
+      "peak_enhancement_fraction": 0.26794451554903087
+    },
+    "nrlmsis_2_1": {
+      "by_altitude_band": {
+        "200-250 km": 0.0954197478812302,
+        "250-300 km": 0.13942906710694875,
+        "300-350 km": 0.19715030940001016
+      },
+      "mean_enhancement_fraction": 0.1462825256879396,
+      "n_samples": 181,
+      "peak_enhancement_fraction": 0.26794885033649946
+    },
+    "nrlmsise00": {
+      "by_altitude_band": {
+        "200-250 km": 0.09863559873788273,
+        "250-300 km": 0.14107437277170717,
+        "300-350 km": 0.20698762837615545
+      },
+      "mean_enhancement_fraction": 0.15153479357302868,
+      "n_samples": 181,
+      "peak_enhancement_fraction": 0.28000006213017226
+    }
+  },
+  "fixed_point_peaks": {
+    "nrlmsis_2_0": {
+      "peak_delta": 0.2610807428123252,
+      "peak_enhancement_fraction": 0.1877451015328877,
+      "peak_enhancement_time_utc": "2022-02-04T20:00:00+00:00",
+      "peak_rho_kg_m3": 1.9420867555701612e-10,
+      "peak_rho_time_utc": "2022-02-04T14:00:00+00:00"
+    },
+    "nrlmsis_2_1": {
+      "peak_delta": 0.26108074281232874,
+      "peak_enhancement_fraction": 0.18774510153288304,
+      "peak_enhancement_time_utc": "2022-02-04T20:00:00+00:00",
+      "peak_rho_kg_m3": 1.942086755570167e-10,
+      "peak_rho_time_utc": "2022-02-04T14:00:00+00:00"
+    },
+    "nrlmsise00": {
+      "peak_delta": 0.2685432025211334,
+      "peak_enhancement_fraction": 0.17142950155727443,
+      "peak_enhancement_time_utc": "2022-02-04T20:00:00+00:00",
+      "peak_rho_kg_m3": 2.026100814900289e-10,
+      "peak_rho_time_utc": "2022-02-04T14:00:00+00:00"
+    },
+    "wam_ipe": {
+      "covered_samples_in_window": 133,
+      "peak_delta": 0.3331867037474332,
+      "peak_rho_kg_m3": 3.552564572954602e-10,
+      "peak_rho_time_utc": "2022-02-04T22:00:00+00:00"
+    }
+  },
+  "propagation": {
+    "nrlmsis_2_0": {
+      "quiet": {
+        "decay_days": 2.521879716226852,
+        "energy": {
+          "altitude_at_horizon_m": 213227.7670850996,
+          "atmosphere_relative_dissipation_J_kg": 166110.7849128891,
+          "drag_delta_v_m_s": 22.123080595022174,
+          "inertial_orbital_energy_change_J_kg": -172202.01554366402,
+          "integration_horizon_hours": 36.0
+        },
+        "gamma_eff_m2_kg": 0.085,
+        "min_perigee_km": 187.40129036744963,
+        "reentered": true
+      },
+      "storm": {
+        "decay_days": 2.249064662986111,
+        "energy": {
+          "altitude_at_horizon_m": 211026.92009085137,
+          "atmosphere_relative_dissipation_J_kg": 201528.8228356317,
+          "drag_delta_v_m_s": 26.842068347705737,
+          "inertial_orbital_energy_change_J_kg": -208923.26966482835,
+          "integration_horizon_hours": 36.0
+        },
+        "gamma_eff_m2_kg": 0.085,
+        "min_perigee_km": 182.7757163096685,
+        "reentered": true
+      }
+    },
+    "nrlmsis_2_1": {
+      "quiet": {
+        "decay_days": 2.5213763233912037,
+        "energy": {
+          "altitude_at_horizon_m": 213220.5313246986,
+          "atmosphere_relative_dissipation_J_kg": 166181.20357926463,
+          "drag_delta_v_m_s": 22.13239034348998,
+          "inertial_orbital_energy_change_J_kg": -172274.86424818385,
+          "integration_horizon_hours": 36.0
+        },
+        "gamma_eff_m2_kg": 0.085,
+        "min_perigee_km": 187.39532586508338,
+        "reentered": true
+      },
+      "storm": {
+        "decay_days": 2.2485200647569443,
+        "energy": {
+          "altitude_at_horizon_m": 211016.3329969542,
+          "atmosphere_relative_dissipation_J_kg": 201446.0999660655,
+          "drag_delta_v_m_s": 26.83108447137023,
+          "inertial_orbital_energy_change_J_kg": -208837.50583891774,
+          "integration_horizon_hours": 36.0
+        },
+        "gamma_eff_m2_kg": 0.085,
+        "min_perigee_km": 182.76784690528643,
+        "reentered": true
+      }
+    },
+    "nrlmsise00": {
+      "quiet": {
+        "decay_days": 2.3726502666087965,
+        "energy": {
+          "altitude_at_horizon_m": 212056.99490098655,
+          "atmosphere_relative_dissipation_J_kg": 181476.5868905996,
+          "drag_delta_v_m_s": 24.170449986818525,
+          "inertial_orbital_energy_change_J_kg": -188134.524601373,
+          "integration_horizon_hours": 36.0
+        },
+        "gamma_eff_m2_kg": 0.085,
+        "min_perigee_km": 185.4095003935946,
+        "reentered": true
+      },
+      "storm": {
+        "decay_days": 2.1089781714236113,
+        "energy": {
+          "altitude_at_horizon_m": 208737.12836669385,
+          "atmosphere_relative_dissipation_J_kg": 223411.09709120917,
+          "drag_delta_v_m_s": 29.756860816313747,
+          "inertial_orbital_energy_change_J_kg": -231610.92886129575,
+          "integration_horizon_hours": 36.0
+        },
+        "gamma_eff_m2_kg": 0.085,
+        "min_perigee_km": 179.96910487041342,
+        "reentered": true
+      }
+    }
+  },
+  "ratio_summary": {
+    "rho_nrlmsis_2_0_over_nrlmsise00": {
+      "max": 0.9868237896170283,
+      "median": 0.9582217184276718,
+      "min": 0.9223751030660285,
+      "n_samples": 145
+    },
+    "rho_nrlmsis_2_1_over_nrlmsis_2_0": {
+      "max": 1.0000000000000075,
+      "median": 1.000000000000003,
+      "min": 0.9999999999999996,
+      "n_samples": 145
+    },
+    "rho_nrlmsis_2_1_over_nrlmsise00": {
+      "max": 0.9868237896170312,
+      "median": 0.9582217184276781,
+      "min": 0.9223751030660317,
+      "n_samples": 145
+    },
+    "rho_wam_ipe_over_nrlmsis_2_0": {
+      "max": 2.2575681531088216,
+      "median": 1.6825551821253997,
+      "min": 1.332592824342218,
+      "n_samples": 133
+    },
+    "rho_wam_ipe_over_nrlmsis_2_1": {
+      "max": 2.257568153108815,
+      "median": 1.682555182125394,
+      "min": 1.3325928243422134,
+      "n_samples": 133
+    }
+  },
+  "provenance": {
+    "asset_manifest": "third_party/nrlmsis_asset_manifest.yaml",
+    "drivers": {
+      "ap": "GFZ Kp/ap (raw store: gfz/kp_2022_extended*.json)",
+      "ap_history": "storm-time 7-element construction via sw.drivers_at",
+      "f107_f107a": "CelesTrak SW (raw store: celestrak/sw_last5years.csv)"
+    },
+    "event_window_utc": [
+      "2022-02-02T00:00:00+00:00",
+      "2022-02-08T00:00:00+00:00"
+    ],
+    "fixed_point": {
+      "altitude_m": 210000.0,
+      "latitude_deg": 53.22,
+      "longitude_deg": 0.0
+    },
+    "gamma_eff_source": "operator-fitted inverse ballistic coefficient (0.085 m^2/kg), identical for every model",
+    "generated_by": "scripts/run_nrlmsis2_reanalysis.py",
+    "git_commit": "c0d24b177a96f37fea6f95ab697cb8789b2dfb29",
+    "git_commit_note": "HEAD when this run executed. The generating script and these outputs are committed together as that commit's child, so a rerun from the child commit reproduces every byte EXCEPT this hash \u2014 the one unavoidable self-reference.",
+    "licence_decision": "research_noncommercial_open_publication_permitted",
+    "licence_mode": "open_noncommercial_research",
+    "models": {
+      "nrlmsis_2_0": {
+        "notes": [
+          "storm-time geomagnetic mode: switch_legacy(9) = -1.0, full 7-element ap history consumed",
+          "official NRLMSIS 2.0 executed unmodified from a separately installed, hash-verified external root; msis20.parm sha256 cf612796af04f473; licence gate mode 'open_noncommercial_research'"
+        ],
+        "provider_name": "NRLMSIS 2.0",
+        "provider_version": "NRLMSIS-2.0/msis20.parm@cf612796af04f473/wse-driver-1.0.0/storm"
+      },
+      "nrlmsis_2_1": {
+        "notes": [
+          "storm-time geomagnetic mode: switch_legacy(9) = -1.0, full 7-element ap history consumed",
+          "official NRLMSIS 2.1 executed unmodified from a separately installed, hash-verified external root; msis21.parm sha256 a322a749f368e731; licence gate mode 'open_noncommercial_research'"
+        ],
+        "provider_name": "NRLMSIS 2.1",
+        "provider_version": "NRLMSIS-2.1/msis21.parm@a322a749f368e731/wse-driver-1.0.0/storm"
+      },
+      "nrlmsise00": {
+        "notes": [
+          "NRLMSISE-00 underestimates rapid storm-time enhancement: He et al. 2023 report peak enhancement at 200/300 km of ~20-25% for MSIS vs ~40% for WAM-IPE and ~57-75% for MAGE. Treat enhancement as a lower bound."
+        ],
+        "provider_name": "NRLMSISE-00",
+        "provider_version": "pymsis/version=0"
+      }
+    },
+    "permission_record": "evidence/licensing/NRLMSIS_2X_RESEARCH_PERMISSION_DECISION.md",
+    "prestorm_lead_utc": [
+      "2022-01-30T00:00:00+00:00",
+      "2022-02-02T00:00:00+00:00"
+    ],
+    "quiet_ap": 4.0,
+    "thresholds": {
+      "material": 0.25,
+      "slight": 0.05,
+      "stated": "in scripts/run_nrlmsis2_reanalysis.py before results existed"
+    },
+    "wam_ipe_absent_samples": 60,
+    "input_assets_count": 183,
+    "input_assets_manifest": "evidence/DATA_MANIFEST_PAPER1.json",
+    "source_archived_reanalysis_summary_sha256": "955fa497b08db7621e5b9f32b89cd4115d29ae8efa95ee0e5a51ae7525e1734c"
+  }
+}

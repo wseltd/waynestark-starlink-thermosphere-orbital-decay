@@ -1,0 +1,100 @@
+# PUBLIC SANITISED MANIFEST of the official NRLMSIS 2.0 / 2.1 assets.
+#
+# The assets themselves are NOT in this repository and are never distributed by
+# it: not in src/, tests/fixtures/, data/, wheels, sdists, Docker images, Git
+# LFS, release archives, review bundles or CI caches. Each user obtains the
+# official package separately from the authorised NRL source and installs it
+# outside the repository; the wrapper locates it through the NRLMSIS20_ROOT /
+# NRLMSIS21_ROOT environment variables (names in .env.example, never values).
+#
+# The providers verify these hashes BEFORE every run. The two parameter files
+# are the same size and msisinit performs no content validation, so a wrong or
+# swapped file is physically loadable — the hash pin is what makes it refuse
+# instead. A record here and the licence-policy record must agree; a mismatch
+# is a refusal, not a warning.
+#
+# No private account information, no local paths. The private manifest with
+# paths lives outside the repository.
+
+manifest_version: "1.0.0"
+retrieval_date_utc: "2026-08-23"
+retrieval_route: >-
+  Direct HTTPS download from the authorised NRL distribution directory. No
+  acceptance interstitial was presented by the server; the licence terms ship
+  inside each package and are recorded in
+  evidence/licensing/NRLMSIS_2X_RESEARCH_PERMISSION_DECISION.md. Automatic
+  download during pip install, package import, tests, CI, Docker build or
+  public reproduction is FORBIDDEN and not implemented; obtaining the package
+  is a deliberate user step.
+
+assets:
+  - logical_id: nrlmsis_2_0_package
+    model_version: "NRLMSIS 2.0 (release 26 MAY 2020)"
+    archive_name: NRLMSIS2.0.tar.gz
+    archive_sha256: 391a7e3669e5484e767708f06831b988687e480168ddd41744a5b44cc9b353fd
+    archive_size_bytes: 218886
+    authorised_source: "https://map.nrl.navy.mil/map/pub/nrl/NRLMSIS/NRLMSIS2.0/"
+    licence_identifier: "LicenseRef-NRL-MSIS-2.0-Academic-NonCommercial (terms embedded in readme.txt)"
+    licence_file:
+      name: readme.txt        # the 2.0 terms block is embedded in the readme
+      sha256: 1b4dd49e355b7868301284a677b817cd41a27b7c48fb4cf85bfc992992349e7f
+    separate_installation_required: true
+    environment_variable: NRLMSIS20_ROOT
+    required_files:
+      - {name: alt2gph.F90,             sha256: 89ac15beeb1ef4c232807aaf8bde1af59ca7fcd5f2e34516681181fab02ba44e}
+      - {name: msis_constants.F90,      sha256: 93d6ca0a287f9321078974f2cb63c21671b00dbd0029867630d7ac0ce9075925}
+      - {name: msis_init.F90,           sha256: 7c2459e3070c5f0ba2059fbb2997d66d2d81345d548229bb4c63d882173e0228}
+      - {name: msis_gfn.F90,            sha256: 730f5fcc9a46dee20c760ce052a2084c04e742bc4a00bbd3da00d0aff04694d6}
+      - {name: msis_tfn.F90,            sha256: 8e29b1d9a69b30e50b13aa9adf9533f19583d940730ce6151ad5eac26d9555e2}
+      - {name: msis_dfn.F90,            sha256: 6ced514fda2b39e5015134a7c8314bdd2c748670cf5576272cdde15e56de1526}
+      - {name: msis_calc.F90,           sha256: 31a698d5fc99a54393101ac4bb97881e8464a6ae0781775a33996df2882df36e}
+      - {name: msis_gtd8d.F90,          sha256: 6a0b276f3cf780abfd8aa2157593069fc81c30a7e47b2ab3fa753af86499dc31}
+      - {name: msis20.parm,             sha256: cf612796af04f473fc9b1445460c30aa497cdc9c991d3507190893577c124602}
+      - {name: msis2.0_test.F90,        sha256: 70b8d8771c595fee398db4bbda19105946590554d69916c7e25562173c3e6dc6}
+      - {name: msis2.0_test_in.txt,     sha256: 1fb1948af99ee9243de7fa350e5d57ceb2e38c3b176a627877c711aea41c4716}
+      - {name: msis2.0_test_ref_dp.txt, sha256: a54e2006c35ade877d611033894343076abbfaef866f98fb548c4ec5d56e5413}
+    citation: >-
+      Emmert, J. T., Drob, D. P., Picone, J. M., Siskind, D. E., Jones, M. Jr.,
+      Mlynczak, M. G., et al. (2021). NRLMSIS 2.0: A whole-atmosphere empirical
+      model of temperature and neutral species densities. Earth and Space
+      Science, 8, e2020EA001321. doi:10.1029/2020EA001321
+
+  - logical_id: nrlmsis_2_1_package
+    model_version: "NRLMSIS 2.1 (release 04 APR 2022, adds NO density)"
+    archive_name: nrlmsis2.1.tar.gz
+    archive_sha256: 41e47b29f795d36a5cc252b2858aa2a384c4a7323ace3d48d3ea2f2b37a1a6a8
+    archive_size_bytes: 181376
+    authorised_source: "https://map.nrl.navy.mil/map/pub/nrl/NRLMSIS/NRLMSIS2.1/"
+    licence_identifier: "LicenseRef-NRL-SOF-014-1-Academic-Research"
+    licence_file:
+      name: "nrlmsis2.1_license..txt"   # double dot is the file's actual name in the package
+      sha256: 46352d9b1303b64d2e73d60e24d2939eccd1496c911b4e39b71fc7b3d5b8dd92
+    separate_installation_required: true
+    environment_variable: NRLMSIS21_ROOT
+    required_files:
+      - {name: msis_constants.F90,      sha256: 319037a1dd098a99d8b336aba87019a485d51926f577c686a3e60026d8a90a2b}
+      - {name: msis_utils.F90,          sha256: 38edc875f463214fe3f1249a42fae31eacf7225ebf66f814e638c7178686f8cf}
+      - {name: msis_init.F90,           sha256: d79e98d26d38923819dbf0ecaf2d43c7b79ddd2f969d4cc9191fee6515f359b7}
+      - {name: msis_gfn.F90,            sha256: a284f405bd606bb8b9085907d85ccbd4e7fa77d40fa1665e710f374f64861039}
+      - {name: msis_tfn.F90,            sha256: 583aa67d867da3076502381f0b537cf4d194bb8837a786a5446d4bc57bd4c82b}
+      - {name: msis_dfn.F90,            sha256: a77a2e2bd186d985d0ee40efc2ad2565f60ec98e2f3254c1a9334eee751142b2}
+      - {name: msis_calc.F90,           sha256: be5ee7e90e9610f72b5db96aefade89601007ccd4a2c86b545e12102cfcbee55}
+      - {name: msis_gtd8d.F90,          sha256: 5c54e3d2ca0d7a7b85a0b66608e2496f18ba47368ff0a966bfd8e97429dbb219}
+      - {name: msis21.parm,             sha256: a322a749f368e73117dd20f3fdcf7389dabc5509f4c27073cc5580999381b508}
+      - {name: msis2.1_test.F90,        sha256: 3f6e6e8deee300393ca30c96eb3baa41da12abd1a7bacf4b0e862e2544e5e746}
+      - {name: msis2.1_test_in.txt,     sha256: 1fb1948af99ee9243de7fa350e5d57ceb2e38c3b176a627877c711aea41c4716}
+      - {name: msis2.1_test_ref_dp.txt, sha256: 59210a442f175b6b3f9e15034856989eea46d54ddb4fe3057a289a77512b7ce3}
+    citation: >-
+      Package-stated reference: Emmert, J. T., et al. (2021), Earth and Space
+      Science, 8, e2020EA001321, doi:10.1029/2020EA001321. The package readme
+      names no separate 2.1 paper and none is invented here.
+
+cross_check: >-
+  msis20.parm and msis21.parm are byte-identical to the copies carried by the
+  independently distributed pymsis wheel installed locally — two distribution
+  chains agreeing on the same coefficient bytes.
+
+sbom_note: >-
+  In any SBOM these two packages are EXTERNALLY SUPPLIED RESEARCH COMPONENTS
+  under their NRL licences, never bundled Apache-2.0 code. Apache-2.0 applies
+  only to this project's original wrapper and analysis code.

@@ -1,0 +1,184 @@
+{
+  "schema": "starlink-paper1-nrlmsis21-paired-verification/1",
+  "source_archived_record_sha256": "a56acdad447b0238556a7b6d3a2d66351877735ffb8b3e6940ebaf0e30025594",
+  "verdict": "REPRODUCED",
+  "what_this_is": "clean serial reproduction of the principal paired quiet-versus-storm lifetime comparison (reviewer check R2), run from the corrected tree",
+  "what_this_is_not": "independent observational validation; it demonstrates computational reproducibility of this implementation only",
+  "atmosphere": {
+    "external_root_env": "NRLMSIS21_ROOT",
+    "licence_mode": "open_noncommercial_research",
+    "model": "NRLMSIS 2.1",
+    "parm_pinned_sha256_prefix": "a322a749f368e731"
+  },
+  "accommodation": {
+    "alpha": 0.998,
+    "provenance": "Pilinski, Argrow & Palo (2010) doi:10.2514/1.49330, as reproduced in the project research brief; primary paywalled - access limitation recorded in planning/species_gsi_worklog.md",
+    "provider": "pilinski_altitude_prior"
+  },
+  "attitude_prescription": "ram-fixed body frame (x along v_rel), proxy pitched about body y by the case angle; constant for the whole propagation; no attitude dynamics and no thrust",
+  "force_formulation": "species-resolved, facet-resolved Sentman diffuse kernel EVALUATED ALONG THE TRAJECTORY at every integrator step - the faceted model is called inside the derivative, with a cache keyed on the exact integrator time only. It is NOT a fixed or precomputed effective coefficient, and the two are not interchangeable: a fixed gamma_eff cannot respond to the changing composition, speed ratio or incidence along the arc.",
+  "wind_and_corotation": "co-rotating atmosphere subtracted (omega x r); u_wind = 0 as the labelled baseline",
+  "initial_epoch_utc": "2022-02-03T18:28:00+00:00",
+  "initial_orbit": {
+    "position_m": [
+      6588136.999999999,
+      0.0,
+      0.0
+    ],
+    "source": "events.starlink_g4_7.insertion_state_vectors()",
+    "velocity_m_s": [
+      0.0,
+      4679.591801562376,
+      6259.893858762977
+    ]
+  },
+  "spacecraft": {
+    "assumption_status": "Starlink-LIKE public-data proxy: every dimension is a round-number assumption representing the publicly reported vehicle class (flat-panel bus, single large array), NOT SpaceX data, NOT the proprietary geometry; per-mass quantities anchor to the operator-published inverse ballistic coefficient, not to an assumed mass-area pairing",
+    "facet_count": 8,
+    "geometry": "Starlink-like public-data proxy geometry",
+    "mass_kg": 297.0,
+    "reference_area_m2": 26.319999999999997
+  },
+  "surface_temperature_k": 300.0,
+  "integration": {
+    "atol": 1e-06,
+    "gravity": "point mass + J2",
+    "max_step_s": 60.0,
+    "method": "DOP853",
+    "rtol": 1e-09,
+    "sample_interval_s": 600.0
+  },
+  "termination": {
+    "censoring": "a case not reaching the floor inside the horizon is right-censored",
+    "horizon_days": 25.0,
+    "reentry_floor_m": 100000.0
+  },
+  "tolerances": {
+    "censoring": "exact",
+    "decay_relative": 1e-09,
+    "penalty_absolute_days": 1e-06
+  },
+  "drivers": {
+    "quiet": "quiet_baseline_drivers(quiet_ap=4.0), solar flux held observed",
+    "storm": "observed GFZ ap history via sw.drivers_at (7-element storm construction)",
+    "frozen_driver_manifest": "evidence/DATA_MANIFEST_PAPER1.json"
+  },
+  "official_nrl_asset_pins": {
+    "nrlmsis_2_0_package/alt2gph.F90": "89ac15beeb1ef4c232807aaf8bde1af59ca7fcd5f2e34516681181fab02ba44e",
+    "nrlmsis_2_0_package/msis2.0_test.F90": "70b8d8771c595fee398db4bbda19105946590554d69916c7e25562173c3e6dc6",
+    "nrlmsis_2_0_package/msis2.0_test_in.txt": "1fb1948af99ee9243de7fa350e5d57ceb2e38c3b176a627877c711aea41c4716",
+    "nrlmsis_2_0_package/msis2.0_test_ref_dp.txt": "a54e2006c35ade877d611033894343076abbfaef866f98fb548c4ec5d56e5413",
+    "nrlmsis_2_0_package/msis20.parm": "cf612796af04f473fc9b1445460c30aa497cdc9c991d3507190893577c124602",
+    "nrlmsis_2_0_package/msis_calc.F90": "31a698d5fc99a54393101ac4bb97881e8464a6ae0781775a33996df2882df36e",
+    "nrlmsis_2_0_package/msis_constants.F90": "93d6ca0a287f9321078974f2cb63c21671b00dbd0029867630d7ac0ce9075925",
+    "nrlmsis_2_0_package/msis_dfn.F90": "6ced514fda2b39e5015134a7c8314bdd2c748670cf5576272cdde15e56de1526",
+    "nrlmsis_2_0_package/msis_gfn.F90": "730f5fcc9a46dee20c760ce052a2084c04e742bc4a00bbd3da00d0aff04694d6",
+    "nrlmsis_2_0_package/msis_gtd8d.F90": "6a0b276f3cf780abfd8aa2157593069fc81c30a7e47b2ab3fa753af86499dc31",
+    "nrlmsis_2_0_package/msis_init.F90": "7c2459e3070c5f0ba2059fbb2997d66d2d81345d548229bb4c63d882173e0228",
+    "nrlmsis_2_0_package/msis_tfn.F90": "8e29b1d9a69b30e50b13aa9adf9533f19583d940730ce6151ad5eac26d9555e2",
+    "nrlmsis_2_1_package/msis2.1_test.F90": "3f6e6e8deee300393ca30c96eb3baa41da12abd1a7bacf4b0e862e2544e5e746",
+    "nrlmsis_2_1_package/msis2.1_test_in.txt": "1fb1948af99ee9243de7fa350e5d57ceb2e38c3b176a627877c711aea41c4716",
+    "nrlmsis_2_1_package/msis2.1_test_ref_dp.txt": "59210a442f175b6b3f9e15034856989eea46d54ddb4fe3057a289a77512b7ce3",
+    "nrlmsis_2_1_package/msis21.parm": "a322a749f368e73117dd20f3fdcf7389dabc5509f4c27073cc5580999381b508",
+    "nrlmsis_2_1_package/msis_calc.F90": "be5ee7e90e9610f72b5db96aefade89601007ccd4a2c86b545e12102cfcbee55",
+    "nrlmsis_2_1_package/msis_constants.F90": "319037a1dd098a99d8b336aba87019a485d51926f577c686a3e60026d8a90a2b",
+    "nrlmsis_2_1_package/msis_dfn.F90": "a77a2e2bd186d985d0ee40efc2ad2565f60ec98e2f3254c1a9334eee751142b2",
+    "nrlmsis_2_1_package/msis_gfn.F90": "a284f405bd606bb8b9085907d85ccbd4e7fa77d40fa1665e710f374f64861039",
+    "nrlmsis_2_1_package/msis_gtd8d.F90": "5c54e3d2ca0d7a7b85a0b66608e2496f18ba47368ff0a966bfd8e97429dbb219",
+    "nrlmsis_2_1_package/msis_init.F90": "d79e98d26d38923819dbf0ecaf2d43c7b79ddd2f969d4cc9191fee6515f359b7",
+    "nrlmsis_2_1_package/msis_tfn.F90": "583aa67d867da3076502381f0b537cf4d194bb8837a786a5446d4bc57bd4c82b",
+    "nrlmsis_2_1_package/msis_utils.F90": "38edc875f463214fe3f1249a42fae31eacf7225ebf66f814e638c7178686f8cf"
+  },
+  "stored_inputs": {
+    "cases_csv_sha256": "c664b53ef37f2655756750fbe2c83242e8f818426b2c808a09ea5093cadc7300",
+    "summary_csv_sha256": "37bd8d786ac5e6dd85aed252f182300d099ae4f75b0c3209c6dcc9df8bc6caa2"
+  },
+  "case_comparisons": [
+    {
+      "attitude": "min_drag_edge_on",
+      "forcing": "quiet",
+      "fresh_decay_days": 18.511275461962935,
+      "relative_difference": 0.0,
+      "status": "reproduced",
+      "stored_decay_days": 18.511275461962935
+    },
+    {
+      "attitude": "min_drag_edge_on",
+      "forcing": "storm",
+      "fresh_decay_days": 17.273386290069638,
+      "relative_difference": 0.0,
+      "status": "reproduced",
+      "stored_decay_days": 17.273386290069638
+    },
+    {
+      "attitude": "plausible_nominal_30deg",
+      "forcing": "quiet",
+      "fresh_decay_days": 2.1028449798927196,
+      "relative_difference": 0.0,
+      "status": "reproduced",
+      "stored_decay_days": 2.1028449798927196
+    },
+    {
+      "attitude": "plausible_nominal_30deg",
+      "forcing": "storm",
+      "fresh_decay_days": 1.8552404881476987,
+      "relative_difference": 0.0,
+      "status": "reproduced",
+      "stored_decay_days": 1.8552404881476987
+    },
+    {
+      "attitude": "max_drag_broadside",
+      "forcing": "quiet",
+      "fresh_decay_days": 1.2342146177967126,
+      "relative_difference": 0.0,
+      "status": "reproduced",
+      "stored_decay_days": 1.2342146177967126
+    },
+    {
+      "attitude": "max_drag_broadside",
+      "forcing": "storm",
+      "fresh_decay_days": 1.1076866997113166,
+      "relative_difference": 0.0,
+      "status": "reproduced",
+      "stored_decay_days": 1.1076866997113166
+    }
+  ],
+  "paired_penalties": [
+    {
+      "absolute_difference_days": 0.0,
+      "attitude": "min_drag_edge_on",
+      "censoring": "none",
+      "fractional_lifetime_reduction": 0.06687217066360003,
+      "quiet_decay_days": 18.511275461962935,
+      "reproduced_penalty_days": 1.237889171893297,
+      "reproduced_penalty_hours": 29.709340125439127,
+      "stored_penalty_days": 1.237889171893297,
+      "storm_decay_days": 17.273386290069638
+    },
+    {
+      "absolute_difference_days": 0.0,
+      "attitude": "plausible_nominal_30deg",
+      "censoring": "none",
+      "fractional_lifetime_reduction": 0.11774738229046862,
+      "quiet_decay_days": 2.1028449798927196,
+      "reproduced_penalty_days": 0.24760449174502086,
+      "reproduced_penalty_hours": 5.942507801880501,
+      "stored_penalty_days": 0.24760449174502086,
+      "storm_decay_days": 1.8552404881476987
+    },
+    {
+      "absolute_difference_days": 0.0,
+      "attitude": "max_drag_broadside",
+      "censoring": "none",
+      "fractional_lifetime_reduction": 0.10251694985696272,
+      "quiet_decay_days": 1.2342146177967126,
+      "reproduced_penalty_days": 0.12652791808539599,
+      "reproduced_penalty_hours": 3.0366700340495036,
+      "stored_penalty_days": 0.12652791808539599,
+      "storm_decay_days": 1.1076866997113166
+    }
+  ],
+  "discrepancies": [],
+  "python": "3.13.9",
+  "platform": "Linux-6.8.0-111-generic-x86_64-with-glibc2.35"
+}

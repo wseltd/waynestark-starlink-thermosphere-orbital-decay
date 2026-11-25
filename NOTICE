@@ -1,0 +1,47 @@
+thermosphere-consequence
+Copyright 2026 Waynestark Enterprises Limited
+
+This product includes software developed by Waynestark Enterprises Limited.
+
+Licensed under the Apache License, Version 2.0 (the "License"); you may not
+use this file except in compliance with the License. You may obtain a copy of
+the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+--------------------------------------------------------------------------
+Third-party runtime dependencies
+--------------------------------------------------------------------------
+
+This distribution depends on, but does not bundle, the following components.
+Their licences are recorded with evidence URLs in
+planning/registry/resources.yaml.
+
+  NumPy      BSD-3-Clause   https://github.com/numpy/numpy/blob/main/LICENSE.txt
+  SciPy      BSD-3-Clause   https://github.com/scipy/scipy/blob/main/LICENSE.txt
+  Pint       BSD-3-Clause   https://github.com/hgrecco/pint/blob/master/LICENSE
+  pydantic   MIT            https://github.com/pydantic/pydantic/blob/main/LICENSE
+  PyYAML     MIT            https://github.com/yaml/pyyaml/blob/main/LICENSE
+
+--------------------------------------------------------------------------
+Scientific data and models — NOT bundled
+--------------------------------------------------------------------------
+
+No external scientific dataset or atmosphere model is bundled with this
+distribution. Where such resources are used at runtime they are retrieved
+under the terms recorded in planning/registry/resources.yaml, and the
+following are excluded from the production path by internal policy:
+
+  NRLMSIS 2.0/2.1   NRL academic non-commercial terms; US Patent 10,641,925
+                    recorded separately (a patent is not a licence status)
+  DTM2020           CNES academic non-commercial terms
+  SET HASDM         research-only terms
+  WDC Kyoto indices commercial use not permitted by the publisher
+  ADBSat            GPL-3.0 (commercial use permitted under copyleft
+                    obligations) plus a proprietary MATLAB dependency;
+                    excluded by strict-permissive policy, not by prohibition
+  Nyx               AGPL-3.0 (commercial use permitted under network-copyleft
+                    obligations); excluded by strict-permissive policy
+
+Physical constants are taken from NIST/CODATA (US Government work, freely
+usable with citation): https://physics.nist.gov/cuu/Constants/

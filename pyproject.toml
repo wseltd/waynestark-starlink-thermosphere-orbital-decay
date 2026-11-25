@@ -1,0 +1,39 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "starlink-thermosphere-orbital-decay"
+version = "1.0.0"
+description = "Standalone reproducibility package for Paper I: Atmospheric Model Response and Conditional Orbital Consequences of the February 2022 Starlink Deployment"
+readme = "README.md"
+requires-python = ">=3.12,<3.14"
+license = "Apache-2.0"
+license-files = ["LICENSE", "NOTICE"]
+authors = [{ name = "Onur A. W. Aydogan", email = "onur@wselimited.com" }]
+keywords = ["thermosphere", "orbital-decay", "space-weather", "nrlmsis", "wam-ipe", "free-molecular-drag"]
+dependencies = [
+    "numpy>=2.0",
+    "scipy>=1.14",
+    "pint>=0.24",
+    "pydantic>=2.7",
+    "PyYAML>=6.0",
+    "pandas>=2.2",
+    "xarray>=2024.1",
+    "pyarrow>=15.0",
+    "netCDF4>=1.6",
+    "matplotlib>=3.8",
+    "pymsis>=0.10",
+    "sgp4>=2.20",
+    "trimesh>=4.0",
+    "SALib>=1.5",
+]
+
+[project.optional-dependencies]
+test = ["pytest>=8.0"]
+
+[project.urls]
+Repository = "https://github.com/wseltd/starlink-thermosphere-orbital-decay"
+
+[tool.setuptools.packages.find]
+where = ["src"]

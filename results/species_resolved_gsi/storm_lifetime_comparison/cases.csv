@@ -1,0 +1,7 @@
+attitude,forcing,supported_threshold_km,supported_crossing_days,reached_supported_threshold,extrapolated_100km_days,reentered_100km,min_altitude_km,censored,horizon_days
+min_drag_edge_on,quiet,170.0,18.511275461962935,True,19.964965347441197,True,115.07449277310911,False,25.0
+min_drag_edge_on,storm,170.0,17.273386290069638,True,18.750819952519713,True,102.16722877211497,False,25.0
+plausible_nominal_30deg,quiet,170.0,2.1028449798927196,True,2.2829679261479416,True,122.02997084850819,False,25.0
+plausible_nominal_30deg,storm,170.0,1.8552404881476987,True,2.0333562482481344,True,123.90862998589128,False,25.0
+max_drag_broadside,quiet,170.0,1.2342146177967126,True,1.3334365874013687,True,100.72831439355481,False,25.0
+max_drag_broadside,storm,170.0,1.1076866997113166,True,1.1815763105291477,True,105.96265447247401,False,25.0

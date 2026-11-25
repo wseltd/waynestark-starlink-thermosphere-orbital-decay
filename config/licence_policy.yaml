@@ -1,0 +1,2104 @@
+# Licence and data policy for thermosphere-consequence.
+#
+# THE machine-checked register. src/thermosphere_consequence/licence reads this
+# file; tests/licence/test_licence_policy.py enforces it; the production gate
+# refuses anything it does not find here.
+#
+# ---------------------------------------------------------------------------
+# The one distinction this file exists to preserve
+# ---------------------------------------------------------------------------
+# `classification` and `commercial_use` record a FACT about somebody else's
+# licence. `policy_decision` records a CHOICE this project made. They are not
+# the same statement and they diverge in both directions:
+#
+#   ADBSat (GPL-3.0) and Nyx (AGPL-3.0) — their licences PERMIT commercial use
+#   under copyleft obligations. This project declines the obligations, so they
+#   are `excluded_by_policy`. Calling them "prohibited" would be a false claim
+#   about a licence the project does not own.
+#
+#   NRLMSIS 2.x, DTM2020, SET HASDM, WDC Kyoto indices and the TU Delft
+#   aerodynamic models — their licences DO forbid commercial use, so they are
+#   `prohibited_by_licence`. Recording that as a policy preference would let a
+#   later reviewer "relax the policy" and ship a licence breach.
+#
+#   NRLMSIS 2.0/2.1 and its parameter files are additionally
+#   `licence_pending`: a written question to NRL — non-revenue open research
+#   through WSE Limited, an independent Apache-2.0 wrapper carrying no NRL
+#   material, publication of derived figures and small reproducibility tables —
+#   is outstanding and UNANSWERED. That is not a softer status than
+#   `prohibited_by_licence`; it is a harder one. The gate refuses a pending
+#   record in EVERY mode, including research, because permission must not be
+#   inferred from silence.
+#
+#   NRLMSISE-00 is a fourth case again, and the opposite kind of gap. The
+#   Fortran this project actually compiles — NRLMSISE-00.FOR, fetched from NRL
+#   at build time by pymsis — carries NO licence text of any kind: no copyright
+#   notice, no public-domain dedication, no terms, and no restriction either.
+#   That is an ABSENCE OF TERMS, which is not a grant and is equally not a
+#   prohibition. Its `commercial_use` is therefore `unknown` and its decision is
+#   `permitted_research_only`: run in research, REFUSED in production, pending
+#   primary evidence. See third_party/licences/NRLMSISE-00-PROVENANCE.md.
+#
+# The loader enforces the invariants, so the distinction cannot decay into a
+# naming convention:
+#
+#   policy_decision in {"prohibited_by_licence", "licence_pending"}
+#                                               <=>  commercial_use == "prohibited"
+#   classification  == "red"                    <=>  commercial_use == "prohibited"
+#   classification  == "green"                   =>  commercial_use == "permitted"
+#
+#   policy_decision == "permitted_research_only" <=>  commercial_use == "unknown"
+#   policy_decision == "permitted_research_only"  =>  classification == "amber"
+#   policy_decision == "permitted_research_only"  =>  verification_gap populated
+#   policy_decision == "permitted"                =>  verification_gap absent
+#
+#   policy_decision == "licence_pending"         =>  fail_closed: true AND a
+#                                                    pending_request whose
+#                                                    reply_received is false
+#
+# A pending_request that records reply_received: true must carry a reply_scope
+# saying what the reply actually covered, and the record may no longer be
+# `licence_pending`: the reply forces an explicit re-decision.
+#
+# `verification_gap` is what makes `permitted_research_only` dischargeable: it
+# names the evidence that is missing and what would close it. A record that said
+# "research only" without it would be a status nobody could ever lift. The
+# mirror rule — a `permitted` record may not carry one — is what stops
+# production running on terms that are still outstanding.
+#
+# ---------------------------------------------------------------------------
+# classification vocabulary (the licence FACT)
+# ---------------------------------------------------------------------------
+#   green  commercial use permitted, no material obligation beyond attribution
+#          or a NOTICE file
+#   amber  commercial use permitted but under a material condition: copyleft, a
+#          no-modification clause, per-user credentials, redistribution limits,
+#          or terms this project has not verified
+#   red    the licence does not permit commercial use
+#
+# ---------------------------------------------------------------------------
+# Sources of the determinations
+# ---------------------------------------------------------------------------
+# open-source-toolchain-1.md sections A1-A8 and TABLES 1, 2, 7, 8, together
+# with planning/registry/resources.yaml and the blockers named in
+# planning/registry/blockers.yaml. Every record carries the primary URL that
+# evidences it. No determination in this file was written from memory.
+#
+# Adding a resource is a licence decision: record it here, with evidence, and
+# add it to third_party/software_manifest.yaml or third_party/data_manifest.yaml
+# before any code names it.
+
+policy_version: "1.0.0"
+
+# Strict-permissive allowlist. SPDX identifiers where the licence is on the
+# SPDX list; a LicenseRef- identifier where it is not, which is SPDX's own
+# convention for an unlisted licence rather than an invention of this project.
+#
+# Being on this list is not sufficient for `policy_decision: permitted` and is
+# not necessary either: JB2008, CelesTrak and Space-Track are permitted under
+# their own bespoke terms with conditions recorded per record.
+permissive_allowlist:
+  - "Apache-2.0"
+  - "BSD-2-Clause"
+  - "BSD-3-Clause"
+  - "ISC"
+  - "MIT"
+  - "PSF-2.0"
+  - "CC0-1.0"
+  - "CC-BY-4.0"
+  - "Unlicense"
+  - "LicenseRef-PublicDomain"
+  - "LicenseRef-US-Gov-Public-Domain"
+  - "LicenseRef-Matplotlib"
+
+# Licences that DO permit commercial use and that this project nonetheless
+# declines, because of the obligations they attach. A record carrying one of
+# these may not be `permitted` — the loader fails the load if it is.
+#
+# Non-commercial licences (CC-BY-NC-SA-4.0, the NRL and CNES academic terms)
+# are deliberately NOT listed here: they are excluded by the licence itself,
+# not by this project's policy, and mixing the two lists would re-create the
+# confusion this file exists to prevent.
+excluded_licences:
+  - "AGPL-3.0-only"
+  - "AGPL-3.0-or-later"
+  - "GPL-2.0-only"
+  - "GPL-2.0-or-later"
+  - "GPL-3.0-only"
+  - "GPL-3.0-or-later"
+  - "LGPL-3.0-only"
+  - "LGPL-3.0-or-later"
+  - "MPL-2.0"
+  - "SSPL-1.0"
+
+modes:
+  production:
+    description: >-
+      The commercial deliverable: shipped code, hosted inference, and any
+      artefact a customer sees. Admits only policy_decision 'permitted'. This
+      set is an invariant enforced by the loader, not a configurable value: a
+      production mode that admitted 'excluded_by_policy' or
+      'prohibited_by_licence' would ship exactly what the audit refused.
+    allowed_policy_decisions: ["permitted"]
+  research:
+    description: >-
+      Internal, non-commercial, non-shipping work: validation against
+      academically licensed models, cross-checks against research-only
+      datasets, and comparisons run under copyleft tools kept as separate
+      executables. Admits every declared record that is not frozen, because
+      that is what the academic and copyleft licences themselves permit, and
+      because a resource whose terms have not been located at all
+      ('permitted_research_only') raises no commercial question in a mode that
+      makes no commercial use. A result obtained in this mode must never be
+      published from a production build, and an UNDECLARED resource is still
+      refused here.
+    allowed_policy_decisions:
+      ["permitted", "permitted_research_only", "excluded_by_policy",
+       "prohibited_by_licence"]
+  open_noncommercial_research:
+    description: >-
+      The research mode for work that will be OPENLY PUBLISHED and is
+      non-commercial: the NRLMSIS 2.x Starlink reanalysis. Everything the
+      research mode admits, PLUS records carrying
+      'research_noncommercial_open_publication_permitted' - the decision that
+      records a written rights-holder confirmation for exactly this kind of
+      use. That decision appears in no other mode's table, so the confirmed
+      resources are refused everywhere else by construction, including in
+      research mode: the confirmation covers the described open-publication
+      workflow, and quiet internal use under a broader mode would outrun its
+      scope.
+    allowed_policy_decisions:
+      ["permitted", "permitted_research_only", "excluded_by_policy",
+       "prohibited_by_licence", "research_noncommercial_open_publication_permitted"]
+
+# Where a refused resource has a lawful replacement, name it. The loader
+# requires every substitute to be a declared resource that is itself usable —
+# 'permitted' or 'permitted_research_only', and not frozen — so the gate can
+# never point a caller at a resource this project declines or is barred from.
+# That is NOT the same as "any substitute will do": a substitute must also be
+# admitted by the MODE being asked about, and where it is not, the refusal says
+# so and names the verification gap rather than sending the caller onward to a
+# second refusal. nrlmsise00 is exactly that case — a real substitute in
+# research, and no substitute at all in production.
+# Resources whose replacement is this project's own implementation
+# (ADBSat -> in-house Sentman; Nyx -> in-house propagator) record that in
+# policy_reason instead, because an in-house module is not a third-party
+# resource.
+substitutes:
+  nrlmsis_2_0: nrlmsise00
+  nrlmsis_2_1: nrlmsise00
+  msis20_parm: nrlmsise00
+  msis21_parm: nrlmsise00
+  dtm2020: nrlmsise00
+  hasdm: tudelft_grace_fo
+  wdc_kyoto_symh: nasa_omni
+  f107_nrcan: celestrak
+
+resources:
+
+  # ======================== runtime dependencies ==========================
+
+  - resource_name: numpy
+    resource_kind: software
+    spdx_or_licence_name: "BSD-3-Clause"
+    licence_url: "https://github.com/numpy/numpy/blob/main/LICENSE.txt"
+    copyright_holder: "NumPy Developers"
+    source_url: "https://github.com/numpy/numpy"
+    version: ">=2.0 (pyproject.toml runtime constraint)"
+    commercial_use: "permitted"
+    saas_use: "permitted"
+    on_premise_redistribution: "permitted"
+    raw_data_caching: "not_applicable"
+    raw_data_redistribution: "not_applicable"
+    derived_output_redistribution: "permitted"
+    modification_permitted: "permitted"
+    credential_required: false
+    legal_review_required: false
+    notice_required: false
+    attribution_text: "NumPy, Copyright (c) NumPy Developers, BSD-3-Clause."
+    classification: "green"
+    policy_decision: "permitted"
+    policy_reason: "Strict-permissive licence on the allowlist; declared runtime dependency."
+    evidence_url: "https://pypi.org/project/numpy/"
+    note: ""
+
+  - resource_name: scipy
+    resource_kind: software
+    spdx_or_licence_name: "BSD-3-Clause"
+    licence_url: "https://github.com/scipy/scipy/blob/main/LICENSE.txt"
+    copyright_holder: "SciPy Developers"
+    source_url: "https://github.com/scipy/scipy"
+    version: ">=1.14 (pyproject.toml runtime constraint)"
+    commercial_use: "permitted"
+    saas_use: "permitted"
+    on_premise_redistribution: "permitted"
+    raw_data_caching: "not_applicable"
+    raw_data_redistribution: "not_applicable"
+    derived_output_redistribution: "permitted"
+    modification_permitted: "permitted"
+    credential_required: false
+    legal_review_required: false
+    notice_required: false
+    attribution_text: "SciPy, Copyright (c) SciPy Developers, BSD-3-Clause."
+    classification: "green"
+    policy_decision: "permitted"
+    policy_reason: "Strict-permissive licence on the allowlist; declared runtime dependency."
+    evidence_url: "https://pypi.org/project/scipy/"
+    note: ""
+
+  - resource_name: pint
+    resource_kind: software
+    spdx_or_licence_name: "BSD-3-Clause"
+    licence_url: "https://github.com/hgrecco/pint/blob/master/LICENSE"
+    copyright_holder: "Hernan E. Grecco and Pint contributors"
+    source_url: "https://github.com/hgrecco/pint"
+    version: ">=0.24 (pyproject.toml runtime constraint)"
+    commercial_use: "permitted"
+    saas_use: "permitted"
+    on_premise_redistribution: "permitted"
+    raw_data_caching: "not_applicable"
+    raw_data_redistribution: "not_applicable"
+    derived_output_redistribution: "permitted"
+    modification_permitted: "permitted"
+    credential_required: false
+    legal_review_required: false
+    notice_required: false
+    attribution_text: "Pint, Copyright (c) Hernan E. Grecco and contributors, BSD-3-Clause."
+    classification: "green"
+    policy_decision: "permitted"
+    policy_reason: "Strict-permissive licence on the allowlist; declared runtime dependency."
+    evidence_url: "https://pypi.org/project/Pint/"
+    note: ""
+
+  - resource_name: pydantic
+    resource_kind: software
+    spdx_or_licence_name: "MIT"
+    licence_url: "https://github.com/pydantic/pydantic/blob/main/LICENSE"
+    copyright_holder: "Pydantic Services Inc. and contributors"
+    source_url: "https://github.com/pydantic/pydantic"
+    version: ">=2.7 (pyproject.toml runtime constraint)"
+    commercial_use: "permitted"
+    saas_use: "permitted"
+    on_premise_redistribution: "permitted"
+    raw_data_caching: "not_applicable"
+    raw_data_redistribution: "not_applicable"
+    derived_output_redistribution: "permitted"
+    modification_permitted: "permitted"
+    credential_required: false
+    legal_review_required: false
+    notice_required: false
+    attribution_text: "pydantic, Copyright (c) Pydantic Services Inc. and contributors, MIT."
+    classification: "green"
+    policy_decision: "permitted"
+    policy_reason: "Strict-permissive licence on the allowlist; declared runtime dependency."
+    evidence_url: "https://pypi.org/project/pydantic/"
+    note: ""
+
+  - resource_name: pyyaml
+    resource_kind: software
+    spdx_or_licence_name: "MIT"
+    licence_url: "https://github.com/yaml/pyyaml/blob/main/LICENSE"
+    copyright_holder: "Ingy dot Net and Kirill Simonov"
+    source_url: "https://github.com/yaml/pyyaml"
+    version: ">=6.0 (pyproject.toml runtime constraint)"
+    commercial_use: "permitted"
+    saas_use: "permitted"
+    on_premise_redistribution: "permitted"
+    raw_data_caching: "not_applicable"
+    raw_data_redistribution: "not_applicable"
+    derived_output_redistribution: "permitted"
+    modification_permitted: "permitted"
+    credential_required: false
+    legal_review_required: false
+    notice_required: false
+    attribution_text: "PyYAML, Copyright (c) Ingy dot Net and Kirill Simonov, MIT."
+    classification: "green"
+    policy_decision: "permitted"
+    policy_reason: "Strict-permissive licence on the allowlist; declared runtime dependency."
+    evidence_url: "https://pypi.org/project/PyYAML/"
+    note: "Reads this policy file itself."
+
+  - resource_name: pandas
+    resource_kind: software
+    spdx_or_licence_name: "BSD-3-Clause"
+    licence_url: "https://github.com/pandas-dev/pandas/blob/main/LICENSE"
+    copyright_holder: "AQR Capital Management LLC and the pandas Development Team"
+    source_url: "https://github.com/pandas-dev/pandas"
+    version: ">=2.2 (pyproject.toml runtime constraint)"
+    commercial_use: "permitted"
+    saas_use: "permitted"
+    on_premise_redistribution: "permitted"
+    raw_data_caching: "not_applicable"
+    raw_data_redistribution: "not_applicable"
+    derived_output_redistribution: "permitted"
+    modification_permitted: "permitted"
+    credential_required: false
+    legal_review_required: false
+    notice_required: false
+    attribution_text: "pandas, Copyright (c) the pandas Development Team, BSD-3-Clause."
+    classification: "green"
+    policy_decision: "permitted"
+    policy_reason: "Strict-permissive licence on the allowlist; declared runtime dependency."
+    evidence_url: "https://pypi.org/project/pandas/"
+    note: ""
+
+  - resource_name: xarray
+    resource_kind: software
+    spdx_or_licence_name: "Apache-2.0"
+    licence_url: "https://github.com/pydata/xarray/blob/main/LICENSE"
+    copyright_holder: "xarray Developers"
+    source_url: "https://github.com/pydata/xarray"
+    version: ">=2024.1 (pyproject.toml runtime constraint)"
+    commercial_use: "permitted"
+    saas_use: "permitted"
+    on_premise_redistribution: "permitted"
+    raw_data_caching: "not_applicable"
+    raw_data_redistribution: "not_applicable"
+    derived_output_redistribution: "permitted"
+    modification_permitted: "permitted"
+    credential_required: false
+    legal_review_required: false
+    notice_required: true
+    attribution_text: "xarray, Copyright (c) xarray Developers, Apache-2.0."
+    classification: "green"
+    policy_decision: "permitted"
+    policy_reason: "Strict-permissive licence on the allowlist; declared runtime dependency."
+    evidence_url: "https://pypi.org/project/xarray/"
+    note: "Apache-2.0 section 4(d): the NOTICE file must accompany any redistribution."
+
+  - resource_name: pyarrow
+    resource_kind: software
+    spdx_or_licence_name: "Apache-2.0"
+    licence_url: "https://github.com/apache/arrow/blob/main/LICENSE.txt"
+    copyright_holder: "The Apache Software Foundation"
+    source_url: "https://github.com/apache/arrow"
+    version: ">=15.0 (pyproject.toml runtime constraint)"
+    commercial_use: "permitted"
+    saas_use: "permitted"
+    on_premise_redistribution: "permitted"
+    raw_data_caching: "not_applicable"
+    raw_data_redistribution: "not_applicable"
+    derived_output_redistribution: "permitted"
+    modification_permitted: "permitted"
+    credential_required: false
+    legal_review_required: false
+    notice_required: true
+    attribution_text: "Apache Arrow, Copyright (c) The Apache Software Foundation, Apache-2.0."
+    classification: "green"
+    policy_decision: "permitted"
+    policy_reason: "Strict-permissive licence on the allowlist; declared runtime dependency."
+    evidence_url: "https://pypi.org/project/pyarrow/"
+    note: "Apache-2.0 section 4(d): the NOTICE file must accompany any redistribution."
+
+  - resource_name: netcdf4
+    resource_kind: software
+    spdx_or_licence_name: "MIT"
+    licence_url: "https://github.com/Unidata/netcdf4-python/blob/master/LICENSE"
+    copyright_holder: "Jeffrey Whitaker and Unidata"
+    source_url: "https://github.com/Unidata/netcdf4-python"
+    version: ">=1.6 (pyproject.toml runtime constraint)"
+    commercial_use: "permitted"
+    saas_use: "permitted"
+    on_premise_redistribution: "permitted"
+    raw_data_caching: "not_applicable"
+    raw_data_redistribution: "not_applicable"
+    derived_output_redistribution: "permitted"
+    modification_permitted: "permitted"
+    credential_required: false
+    legal_review_required: false
+    notice_required: false
+    attribution_text: "netCDF4-python, Copyright (c) Jeffrey Whitaker, MIT."
+    classification: "green"
+    policy_decision: "permitted"
+    policy_reason: "Strict-permissive licence on the allowlist; declared runtime dependency."
+    evidence_url: "https://pypi.org/project/netCDF4/"
+    note: >-
+      Wheels bundle the netCDF-C and HDF5 libraries, which carry their own
+      BSD-style notices; those notices travel with the wheel.
+
+  - resource_name: matplotlib
+    resource_kind: software
+    spdx_or_licence_name: "LicenseRef-Matplotlib"
+    licence_url: "https://matplotlib.org/stable/project/license.html"
+    copyright_holder: "Matplotlib Development Team"
+    source_url: "https://github.com/matplotlib/matplotlib"
+    version: ">=3.8 (pyproject.toml runtime constraint)"
+    commercial_use: "permitted"
+    saas_use: "permitted"
+    on_premise_redistribution: "permitted"
+    raw_data_caching: "not_applicable"
+    raw_data_redistribution: "not_applicable"
+    derived_output_redistribution: "permitted"
+    modification_permitted: "permitted"
+    credential_required: false
+    legal_review_required: false
+    notice_required: false
+    attribution_text: "Matplotlib, Copyright (c) Matplotlib Development Team, Matplotlib licence."
+    classification: "green"
+    policy_decision: "permitted"
+    policy_reason: >-
+      The Matplotlib licence is a PSF-derived, BSD-compatible permissive
+      licence. It has no SPDX identifier, so it is recorded as a LicenseRef and
+      added to the allowlist explicitly rather than approximated as BSD.
+    evidence_url: "https://pypi.org/project/matplotlib/"
+    note: ""
+
+  - resource_name: pymsis
+    resource_kind: software
+    spdx_or_licence_name: "MIT"
+    licence_url: "https://github.com/SWxTREC/pymsis/blob/main/LICENSE"
+    copyright_holder: "SWxTREC, University of Colorado"
+    source_url: "https://github.com/SWxTREC/pymsis"
+    version: ">=0.10 (pyproject.toml runtime constraint)"
+    commercial_use: "permitted"
+    saas_use: "permitted"
+    on_premise_redistribution: "permitted"
+    raw_data_caching: "not_applicable"
+    raw_data_redistribution: "not_applicable"
+    derived_output_redistribution: "permitted"
+    modification_permitted: "permitted"
+    credential_required: false
+    legal_review_required: true
+    notice_required: false
+    attribution_text: "pymsis, Copyright (c) SWxTREC, University of Colorado, MIT."
+    classification: "green"
+    policy_decision: "permitted"
+    policy_reason: >-
+      The pymsis WRAPPER CODE is MIT and is permitted. The models it can reach
+      are separate resources with separate records, which is why this gate keys
+      on the model and not on the package.
+    evidence_url: "https://doi.org/10.5281/zenodo.17727617"
+    note: >-
+      Permitted for NRLMSISE-00 (version=0) only. The same package can download
+      and run NRLMSIS 2.x, recorded as resource nrlmsis2 and refused in
+      production; the guard test in tests/providers/test_nrlmsise00.py pins
+      version=0 at every call site.
+
+  - resource_name: sgp4
+    resource_kind: software
+    spdx_or_licence_name: "MIT"
+    licence_url: "https://github.com/brandon-rhodes/python-sgp4/blob/master/LICENSE"
+    copyright_holder: "Brandon Rhodes"
+    source_url: "https://github.com/brandon-rhodes/python-sgp4"
+    version: ">=2.20 (pyproject.toml runtime constraint)"
+    commercial_use: "permitted"
+    saas_use: "permitted"
+    on_premise_redistribution: "permitted"
+    raw_data_caching: "not_applicable"
+    raw_data_redistribution: "not_applicable"
+    derived_output_redistribution: "permitted"
+    modification_permitted: "permitted"
+    credential_required: false
+    legal_review_required: false
+    notice_required: false
+    attribution_text: "python-sgp4, Copyright (c) Brandon Rhodes, MIT."
+    classification: "green"
+    policy_decision: "permitted"
+    policy_reason: "Strict-permissive licence on the allowlist; declared runtime dependency."
+    evidence_url: "https://pypi.org/project/sgp4/"
+    note: >-
+      Wraps Vallado's reference SGP4. Used for TLE validation only, never as
+      the counterfactual propagator.
+
+  - resource_name: trimesh
+    resource_kind: software
+    spdx_or_licence_name: "MIT"
+    licence_url: "https://github.com/mikedh/trimesh/blob/main/LICENSE.md"
+    copyright_holder: "Michael Dawson-Haggerty"
+    source_url: "https://github.com/mikedh/trimesh"
+    version: ">=4.0 (pyproject.toml runtime constraint)"
+    commercial_use: "permitted"
+    saas_use: "permitted"
+    on_premise_redistribution: "permitted"
+    raw_data_caching: "not_applicable"
+    raw_data_redistribution: "not_applicable"
+    derived_output_redistribution: "permitted"
+    modification_permitted: "permitted"
+    credential_required: false
+    legal_review_required: false
+    notice_required: false
+    attribution_text: "trimesh, Copyright (c) Michael Dawson-Haggerty, MIT."
+    classification: "green"
+    policy_decision: "permitted"
+    policy_reason: "Strict-permissive licence on the allowlist; declared runtime dependency."
+    evidence_url: "https://pypi.org/project/trimesh/"
+    note: ""
+
+  - resource_name: salib
+    resource_kind: software
+    spdx_or_licence_name: "MIT"
+    licence_url: "https://github.com/SALib/SALib/blob/main/LICENSE.md"
+    copyright_holder: "Jon Herman, Will Usher and SALib contributors"
+    source_url: "https://github.com/SALib/SALib"
+    version: ">=1.5 (pyproject.toml runtime constraint)"
+    commercial_use: "permitted"
+    saas_use: "permitted"
+    on_premise_redistribution: "permitted"
+    raw_data_caching: "not_applicable"
+    raw_data_redistribution: "not_applicable"
+    derived_output_redistribution: "permitted"
+    modification_permitted: "permitted"
+    credential_required: false
+    legal_review_required: false
+    notice_required: false
+    attribution_text: "SALib, Copyright (c) Jon Herman, Will Usher and contributors, MIT."
+    classification: "green"
+    policy_decision: "permitted"
+    policy_reason: "Strict-permissive licence on the allowlist; declared runtime dependency."
+    evidence_url: "https://pypi.org/project/SALib/"
+    note: ""
+
+  # ================= optional and development dependencies ================
+
+  - resource_name: fastapi
+    resource_kind: software
+    spdx_or_licence_name: "MIT"
+    licence_url: "https://github.com/fastapi/fastapi/blob/master/LICENSE"
+    copyright_holder: "Sebastian Ramirez"
+    source_url: "https://github.com/fastapi/fastapi"
+    version: ">=0.110 (pyproject.toml optional 'api' group)"
+    commercial_use: "permitted"
+    saas_use: "permitted"
+    on_premise_redistribution: "permitted"
+    raw_data_caching: "not_applicable"
+    raw_data_redistribution: "not_applicable"
+    derived_output_redistribution: "permitted"
+    modification_permitted: "permitted"
+    credential_required: false
+    legal_review_required: false
+    notice_required: false
+    attribution_text: "FastAPI, Copyright (c) Sebastian Ramirez, MIT."
+    classification: "green"
+    policy_decision: "permitted"
+    policy_reason: "Strict-permissive licence on the allowlist; optional HTTP adapter."
+    evidence_url: "https://pypi.org/project/fastapi/"
+    note: "Optional group, so that the library core stays installable without an HTTP stack."
+
+  - resource_name: uvicorn
+    resource_kind: software
+    spdx_or_licence_name: "BSD-3-Clause"
+    licence_url: "https://github.com/encode/uvicorn/blob/master/LICENSE.md"
+    copyright_holder: "Encode OSS Ltd"
+    source_url: "https://github.com/encode/uvicorn"
+    version: ">=0.29 (pyproject.toml optional 'api' group)"
+    commercial_use: "permitted"
+    saas_use: "permitted"
+    on_premise_redistribution: "permitted"
+    raw_data_caching: "not_applicable"
+    raw_data_redistribution: "not_applicable"
+    derived_output_redistribution: "permitted"
+    modification_permitted: "permitted"
+    credential_required: false
+    legal_review_required: false
+    notice_required: false
+    attribution_text: "Uvicorn, Copyright (c) Encode OSS Ltd, BSD-3-Clause."
+    classification: "green"
+    policy_decision: "permitted"
+    policy_reason: "Strict-permissive licence on the allowlist; optional ASGI server."
+    evidence_url: "https://pypi.org/project/uvicorn/"
+    note: ""
+
+  - resource_name: httpx
+    resource_kind: software
+    spdx_or_licence_name: "BSD-3-Clause"
+    licence_url: "https://github.com/encode/httpx/blob/master/LICENSE.md"
+    copyright_holder: "Encode OSS Ltd"
+    source_url: "https://github.com/encode/httpx"
+    version: ">=0.27 (pyproject.toml optional 'api' group)"
+    commercial_use: "permitted"
+    saas_use: "permitted"
+    on_premise_redistribution: "permitted"
+    raw_data_caching: "not_applicable"
+    raw_data_redistribution: "not_applicable"
+    derived_output_redistribution: "permitted"
+    modification_permitted: "permitted"
+    credential_required: false
+    legal_review_required: false
+    notice_required: false
+    attribution_text: "HTTPX, Copyright (c) Encode OSS Ltd, BSD-3-Clause."
+    classification: "green"
+    policy_decision: "permitted"
+    policy_reason: "Strict-permissive licence on the allowlist; test client for the HTTP adapter."
+    evidence_url: "https://pypi.org/project/httpx/"
+    note: >-
+      Kept out of the runtime dependency set on purpose; the layering test
+      enforces that the library core never acquires an HTTP stack.
+
+  - resource_name: pytest
+    resource_kind: software
+    spdx_or_licence_name: "MIT"
+    licence_url: "https://github.com/pytest-dev/pytest/blob/main/LICENSE"
+    copyright_holder: "Holger Krekel and pytest contributors"
+    source_url: "https://github.com/pytest-dev/pytest"
+    version: ">=8.0 (pyproject.toml optional 'test' group)"
+    commercial_use: "permitted"
+    saas_use: "permitted"
+    on_premise_redistribution: "permitted"
+    raw_data_caching: "not_applicable"
+    raw_data_redistribution: "not_applicable"
+    derived_output_redistribution: "permitted"
+    modification_permitted: "permitted"
+    credential_required: false
+    legal_review_required: false
+    notice_required: false
+    attribution_text: "pytest, Copyright (c) Holger Krekel and contributors, MIT."
+    classification: "green"
+    policy_decision: "permitted"
+    policy_reason: "Strict-permissive licence on the allowlist; development tooling, not shipped."
+    evidence_url: "https://pypi.org/project/pytest/"
+    note: ""
+
+  - resource_name: ruff
+    resource_kind: software
+    spdx_or_licence_name: "MIT"
+    licence_url: "https://github.com/astral-sh/ruff/blob/main/LICENSE"
+    copyright_holder: "Astral Software Inc."
+    source_url: "https://github.com/astral-sh/ruff"
+    version: ">=0.5 (pyproject.toml optional 'lint' group)"
+    commercial_use: "permitted"
+    saas_use: "permitted"
+    on_premise_redistribution: "permitted"
+    raw_data_caching: "not_applicable"
+    raw_data_redistribution: "not_applicable"
+    derived_output_redistribution: "permitted"
+    modification_permitted: "permitted"
+    credential_required: false
+    legal_review_required: false
+    notice_required: false
+    attribution_text: "Ruff, Copyright (c) Astral Software Inc., MIT."
+    classification: "green"
+    policy_decision: "permitted"
+    policy_reason: "Strict-permissive licence on the allowlist; development tooling, not shipped."
+    evidence_url: "https://pypi.org/project/ruff/"
+    note: ""
+
+  - resource_name: mypy
+    resource_kind: software
+    spdx_or_licence_name: "MIT"
+    licence_url: "https://github.com/python/mypy/blob/master/LICENSE"
+    copyright_holder: "Jukka Lehtosalo and mypy contributors"
+    source_url: "https://github.com/python/mypy"
+    version: ">=1.10 (pyproject.toml optional 'lint' group)"
+    commercial_use: "permitted"
+    saas_use: "permitted"
+    on_premise_redistribution: "permitted"
+    raw_data_caching: "not_applicable"
+    raw_data_redistribution: "not_applicable"
+    derived_output_redistribution: "permitted"
+    modification_permitted: "permitted"
+    credential_required: false
+    legal_review_required: false
+    notice_required: false
+    attribution_text: "mypy, Copyright (c) Jukka Lehtosalo and contributors, MIT."
+    classification: "green"
+    policy_decision: "permitted"
+    policy_reason: "Strict-permissive licence on the allowlist; development tooling, not shipped."
+    evidence_url: "https://pypi.org/project/mypy/"
+    note: ""
+
+  - resource_name: build
+    resource_kind: software
+    spdx_or_licence_name: "MIT"
+    licence_url: "https://github.com/pypa/build/blob/main/LICENSE"
+    copyright_holder: "Filipe Lains and build contributors"
+    source_url: "https://github.com/pypa/build"
+    version: ">=1.5 (pyproject.toml optional 'package' group)"
+    commercial_use: "permitted"
+    saas_use: "permitted"
+    on_premise_redistribution: "permitted"
+    raw_data_caching: "not_applicable"
+    raw_data_redistribution: "not_applicable"
+    derived_output_redistribution: "permitted"
+    modification_permitted: "permitted"
+    credential_required: false
+    legal_review_required: false
+    notice_required: false
+    attribution_text: "build, Copyright (c) Filipe Lains and contributors, MIT."
+    classification: "green"
+    policy_decision: "permitted"
+    policy_reason: "Strict-permissive licence on the allowlist; builds the wheel and sdist for the packaging audit, not shipped."
+    evidence_url: "https://pypi.org/project/build/"
+    note: ""
+
+  - resource_name: bandit
+    resource_kind: software
+    spdx_or_licence_name: "Apache-2.0"
+    licence_url: "https://github.com/PyCQA/bandit/blob/main/LICENSE"
+    copyright_holder: "PyCQA and Bandit contributors"
+    source_url: "https://github.com/PyCQA/bandit"
+    version: ">=1.9 (pyproject.toml optional 'package' group)"
+    commercial_use: "permitted"
+    saas_use: "permitted"
+    on_premise_redistribution: "permitted"
+    raw_data_caching: "not_applicable"
+    raw_data_redistribution: "not_applicable"
+    derived_output_redistribution: "permitted"
+    modification_permitted: "permitted"
+    credential_required: false
+    legal_review_required: false
+    notice_required: true
+    attribution_text: "bandit, Copyright (c) PyCQA and contributors, Apache-2.0."
+    classification: "green"
+    policy_decision: "permitted"
+    policy_reason: "Strict-permissive licence on the allowlist; static security scanner for the packaging audit, not shipped."
+    evidence_url: "https://pypi.org/project/bandit/"
+    note: "Apache-2.0 section 4(d): the NOTICE file must accompany any redistribution."
+
+  - resource_name: pyproject_hooks
+    resource_kind: software
+    spdx_or_licence_name: "MIT"
+    licence_url: "https://github.com/pypa/pyproject-hooks/blob/main/LICENSE"
+    copyright_holder: "Thomas Kluyver and pyproject-hooks contributors"
+    source_url: "https://github.com/pypa/pyproject-hooks"
+    version: "transitive dependency of 'build'"
+    commercial_use: "permitted"
+    saas_use: "permitted"
+    on_premise_redistribution: "permitted"
+    raw_data_caching: "not_applicable"
+    raw_data_redistribution: "not_applicable"
+    derived_output_redistribution: "permitted"
+    modification_permitted: "permitted"
+    credential_required: false
+    legal_review_required: false
+    notice_required: false
+    attribution_text: "pyproject-hooks, Copyright (c) Thomas Kluyver and contributors, MIT."
+    classification: "green"
+    policy_decision: "permitted"
+    policy_reason: "Strict-permissive licence on the allowlist; transitive dependency of the build frontend, not shipped."
+    evidence_url: "https://pypi.org/project/pyproject-hooks/"
+    note: ""
+
+  - resource_name: stevedore
+    resource_kind: software
+    spdx_or_licence_name: "Apache-2.0"
+    licence_url: "https://opendev.org/openstack/stevedore/src/branch/master/LICENSE"
+    copyright_holder: "OpenStack Foundation"
+    source_url: "https://opendev.org/openstack/stevedore"
+    version: "transitive dependency of 'bandit'"
+    commercial_use: "permitted"
+    saas_use: "permitted"
+    on_premise_redistribution: "permitted"
+    raw_data_caching: "not_applicable"
+    raw_data_redistribution: "not_applicable"
+    derived_output_redistribution: "permitted"
+    modification_permitted: "permitted"
+    credential_required: false
+    legal_review_required: false
+    notice_required: true
+    attribution_text: "stevedore, Copyright (c) OpenStack Foundation, Apache-2.0."
+    classification: "green"
+    policy_decision: "permitted"
+    policy_reason: "Strict-permissive licence on the allowlist; transitive dependency of bandit, not shipped."
+    evidence_url: "https://pypi.org/project/stevedore/"
+    note: "Apache-2.0 section 4(d): the NOTICE file must accompany any redistribution."
+
+  - resource_name: wheel
+    resource_kind: software
+    spdx_or_licence_name: "MIT"
+    licence_url: "https://github.com/pypa/wheel/blob/main/LICENSE.txt"
+    copyright_holder: "Daniel Holth and wheel contributors"
+    source_url: "https://github.com/pypa/wheel"
+    version: ">=0.45 (pyproject.toml optional 'package' group)"
+    commercial_use: "permitted"
+    saas_use: "permitted"
+    on_premise_redistribution: "permitted"
+    raw_data_caching: "not_applicable"
+    raw_data_redistribution: "not_applicable"
+    derived_output_redistribution: "permitted"
+    modification_permitted: "permitted"
+    credential_required: false
+    legal_review_required: false
+    notice_required: false
+    attribution_text: "wheel, Copyright (c) Daniel Holth and contributors, MIT."
+    classification: "green"
+    policy_decision: "permitted"
+    policy_reason: "Strict-permissive licence on the allowlist; wheel support for the build backend, not shipped."
+    evidence_url: "https://pypi.org/project/wheel/"
+    note: ""
+
+  - resource_name: hypothesis
+    resource_kind: software
+    spdx_or_licence_name: "MPL-2.0"
+    licence_url: "https://github.com/HypothesisWorks/hypothesis/blob/master/LICENSE.txt"
+    copyright_holder: "David R. MacIver and Hypothesis contributors"
+    source_url: "https://github.com/HypothesisWorks/hypothesis"
+    version: ">=6.100 (pyproject.toml optional 'test' group)"
+    commercial_use: "permitted"
+    saas_use: "permitted"
+    on_premise_redistribution: "conditional"
+    raw_data_caching: "not_applicable"
+    raw_data_redistribution: "not_applicable"
+    derived_output_redistribution: "permitted"
+    modification_permitted: "conditional"
+    credential_required: false
+    legal_review_required: false
+    notice_required: true
+    attribution_text: "Hypothesis, Copyright (c) David R. MacIver and contributors, MPL-2.0."
+    classification: "amber"
+    policy_decision: "excluded_by_policy"
+    policy_reason: >-
+      MPL-2.0 PERMITS commercial use; what it attaches is a file-level copyleft
+      obligation on modified covered files. This project declines to carry that
+      obligation into a shipped artefact, so hypothesis is a development-only
+      dependency and is never part of the production path. The exclusion is
+      this project's choice, not a restriction in the licence.
+    evidence_url: "https://pypi.org/project/hypothesis/"
+    note: "Property-based tests only; never imported by src/."
+
+  # ===================== atmosphere and wind models =======================
+
+  - resource_name: nrlmsise00
+    resource_kind: software
+    spdx_or_licence_name: "LicenseRef-NRLMSISE-00-No-Terms-Located"
+    licence_url: "https://map.nrl.navy.mil/map/pub/nrl/NRLMSIS/NRLMSISE-00/"
+    copyright_holder: >-
+      US Naval Research Laboratory (authorship; NO copyright notice appears in
+      the distributed Fortran)
+    source_url: "https://map.nrl.navy.mil/map/pub/nrl/NRLMSIS/NRLMSISE-00/NRLMSISE-00.FOR"
+    version: >-
+      2000 reference model (Picone et al. 2002); artefact NRLMSISE-00.FOR
+      retrieved 2026-08-16, HTTP 200, 114,981 bytes, sha256
+      cce0420e90781c256bc6705c4cc8056b054812d6308adccb7081bf09af0d44cb,
+      compiled into the msis00f extension this project loads
+    commercial_use: "unknown"
+    saas_use: "unknown"
+    on_premise_redistribution: "unknown"
+    raw_data_caching: "not_applicable"
+    raw_data_redistribution: "not_applicable"
+    derived_output_redistribution: "unknown"
+    modification_permitted: "unknown"
+    credential_required: false
+    legal_review_required: true
+    notice_required: false
+    attribution_text: >-
+      NRLMSISE-00 empirical atmosphere model, Picone et al. (2002),
+      doi:10.1029/2002JA009430. US Naval Research Laboratory. Licence terms not
+      located; used for open non-commercial research only.
+    classification: "amber"
+    policy_decision: "permitted_research_only"
+    verification_gap: >-
+      No primary licence evidence is held for the artefact this project actually
+      compiles. NRLMSISE-00.FOR, fetched from NRL at build time by pymsis
+      (tools/download_source.py; pymsis vendors no MSIS-00 source, src/msis00/
+      holds only a .gitkeep), carries NO licence text of any kind: a full-text
+      search for licen, copyright, public domain, restrict, proprietar,
+      distribut and permission returns ONE hit, at line 291, and it is not a
+      licence statement. Three things would close this, any one of them: (1) a
+      primary public-domain dedication or terms-of-use page published by NRL for
+      the NRLMSISE-00 Fortran distribution specifically, filed under
+      third_party/licences/; (2) written confirmation from NRL — the outstanding
+      NRLMSIS 2.x request is a natural place to add the question, but it does NOT
+      currently cover this model and must not be treated as if it does; (3) a
+      reasoned 17 U.S.C. 105 determination signed off by someone competent to
+      make it, recorded as a legal determination rather than asserted in YAML.
+      Tracked as BLK-NRLMSISE00-ARTEFACT-PROVENANCE.
+    policy_reason: >-
+      RESEARCH ONLY. This is an ABSENCE OF TERMS, not a restriction: nothing
+      forbidding use was found, and nothing granting it either. An absence of
+      terms is not a grant, so the artefact may not enter the production path
+      until primary evidence is filed. It remains this project's PRIMARY
+      composition engine in research mode and the recorded substitute for the
+      restricted thermosphere models — a substitute that research mode admits
+      and production does not, which the gate states rather than glossing.
+      This record previously cited COPYING.NRLMSISE-00 from st-bender/pynrlmsise00
+      as its grant; that file is real but accompanies a DIFFERENT artefact,
+      Dominik Brodowski's independent C port, not the NRL Fortran compiled here.
+      Citing it was a provenance error and is corrected here. NOT covered by the
+      outstanding NRLMSIS 2.x request: this is a different model under different
+      terms, and the pending NRL question must not be read as reaching it in
+      either direction.
+    evidence_url: "third_party/licences/NRLMSISE-00-PROVENANCE.md"
+    note: >-
+      Reached through pymsis in MSISE-00 mode (version=0). Do not confuse with
+      NRLMSIS 2.x, which is a different model under different terms and is
+      FROZEN. Primary evidence for this record is held in-repo:
+      third_party/licences/NRLMSISE-00-PROVENANCE.md records the retrieval and
+      the finding, and third_party/licences/NRLMSISE-00.FOR.header-evidence.txt
+      retains the first 300 lines of the source so the finding can be re-checked
+      without re-fetching. Production mode consequently has NO atmosphere
+      provider at all; that is the honest consequence of this project being open
+      non-commercial research, not a defect. See
+      evidence/NRLMSIS_LICENCE_FREEZE.md.
+
+  - resource_name: nrlmsis_2_0
+    resource_kind: software
+    spdx_or_licence_name: "LicenseRef-NRL-MSIS-2.0-Academic-NonCommercial"
+    licence_url: "https://map.nrl.navy.mil/map/pub/nrl/NRLMSIS/NRLMSIS2.0/"
+    copyright_holder: "US Naval Research Laboratory"
+    source_url: "https://map.nrl.navy.mil/map/pub/nrl/NRLMSIS/NRLMSIS2.0/"
+    version: "2.0 (release 26 MAY 2020)"
+    commercial_use: "prohibited"
+    saas_use: "prohibited"
+    on_premise_redistribution: "prohibited"
+    raw_data_caching: "not_applicable"
+    raw_data_redistribution: "not_applicable"
+    derived_output_redistribution: "conditional"
+    modification_permitted: "prohibited"
+    credential_required: false
+    legal_review_required: true
+    notice_required: true
+    attribution_text: >-
+      NRLMSIS 2.0, US Naval Research Laboratory. Cite Emmert, J. T., et al. (2021), NRLMSIS 2.0: A whole-atmosphere empirical model of temperature and neutral species densities, Earth and Space Science, 8, e2020EA001321, doi:10.1029/2020EA001321.
+    classification: "red"
+    policy_decision: "research_noncommercial_open_publication_permitted"
+    fail_closed: false
+    pending_request:
+      requested_of: "US Naval Research Laboratory (Technology Transfer / IP Counsel)"
+      requested_utc: "2026-08-16T00:00:00+00:00"
+      questions_asked:
+        - >-
+          Whether non-revenue, openly published research carried out through WSE
+          Limited is permitted under the NRLMSIS 2.0/2.1 terms.
+        - >-
+          Whether an independent Apache-2.0 Python wrapper containing no NRL
+          code, no NRL coefficients and no translated NRL routines is treated as
+          separate interoperability software.
+        - >-
+          Whether free publication of derived figures, numerical results and
+          small reproducibility tables is permitted.
+      reply_received: true
+      reply_utc: "2026-08-23T00:00:00+00:00"
+      reply_scope: >-
+        WRITTEN REPLY, relayed verbatim by the operator (reply_utc is the date
+        the reply was entered in this register, same convention as
+        requested_utc; permission_basis is
+        operator_confirmed_written_nrl_permission, and the correspondence
+        itself is intentionally_not_stored_by_project). Operative text: "The developer got back with me and said, 'I have no issues permitting this use - this is exactly the kind of academic use we wanted the primary license to permit.' Therefore, you can proceed with utilizing this invention under the terms of the license agreement." The reply
+        answers an email that expressly described: research through Waynestark
+        Enterprises Limited (a UK commercial legal entity) that is strictly
+        non-commercial, not customer-funded, not a paid product or service,
+        with no revenue intended; open publication; original methodology and
+        original source code on public GitHub; use of NRLMSIS 2.0 and 2.1; an
+        independently written wrapper with no NRL source, no translated
+        routines, no NRL coefficient or parameter files and no modification of
+        the official implementation; separate per-user installation from the
+        authorised NRL source; Apache-2.0 applying ONLY to original wrapper
+        and analysis code; publication limited to model-generated numerical
+        results, figures, discussion, small derived tables, version
+        identifiers, hashes, configuration and provenance; and no
+        redistribution, translation, modification, relicensing or bundling of
+        NRL material. "Under the terms of the license agreement" is
+        CONTROLLING: this is permission for the described use under the
+        existing licence, not a waiver of it. It covers NRLMSIS 2.0 and 2.1
+        ONLY; it says nothing about NRLMSISE-00, HWM14, DTM2020, JB2008 or any
+        other model.
+    written_confirmation_status: >-
+      operator_confirmed_written_nrl_permission. NRL's written permission
+      for the described use was communicated by the operator and is the
+      basis of this record. The correspondence itself is intentionally not
+      stored, copied, hashed or archived by this project, and its absence
+      is not a blocker and blocks nothing.
+    permitted_project_mode: >-
+      Non-commercial open scientific research as described in the
+      correspondence: openly published, not customer-funded, no revenue
+      intended, original Apache-2.0 wrapper and analysis code, official model
+      installed separately by each user from the authorised NRL source.
+    hosted_service_status: "not granted by this correspondence"
+    customer_distribution_status: "not granted by this correspondence"
+    source_redistribution_status: >-
+      prohibited unless the controlling licence expressly says otherwise; not
+      undertaken. No NRL source file enters git, wheels, sdists, images,
+      release archives or review bundles.
+    coefficient_redistribution_status: >-
+      prohibited unless the controlling licence expressly says otherwise; not
+      undertaken. msis20.parm and msis21.parm stay in the external
+      installation, outside every distributed artefact.
+    translation_status: "not undertaken; no NRL routine is translated into any language"
+    wrapper_status: >-
+      independent interoperability wrapper permitted under the described
+      architecture: original Fortran driver linking the UNMODIFIED official
+      sources plus an original Python layer; contains no NRL code, no
+      translated routines and no coefficient data.
+    permission_basis: >-
+      operator_confirmed_written_nrl_permission; correspondence_storage is
+      intentionally_not_stored_by_project. The sanitised public asset
+      manifest is third_party/nrlmsis_asset_manifest.yaml.
+    citation_requirements: >-
+      NRLMSIS 2.0, US Naval Research Laboratory. Cite Emmert, J. T., et al. (2021), NRLMSIS 2.0: A whole-atmosphere empirical model of temperature and neutral species densities, Earth and Space Science, 8, e2020EA001321, doi:10.1029/2020EA001321.
+    acknowledgement_requirements: >-
+      The 2.0 package states no acknowledgement wording beyond its terms block; the terms block itself is preserved verbatim in the external installation's readme.txt. MSIS(R) is a registered trademark of the Government of the United States of America; unauthorized use of the trademark is prohibited. No acknowledgement text is invented.
+    policy_reason: >-
+      RESOLVED for one described use, and only that use. The licence itself is
+      unchanged: academic/research, non-commercial, no sale of the software or
+      of data products without NRL IP Counsel consent, US Patent 10,641,925
+      recorded separately. NRL has confirmed in writing that this project's
+      described non-commercial, openly published research workflow is
+      permitted under those terms ("under the terms of the license agreement"
+      is controlling - it is not a waiver). Commercial use, paid customer
+      work, consulting, SaaS, commercial APIs, hosted or on-premise products,
+      bundling in sold applications, commercial internal deployment unrelated
+      to this research, redistribution of source or coefficients, translation,
+      modification, relicensing and commercial derivatives remain NOT granted
+      and fail closed: production admits only 'permitted', and no other mode
+      admits this decision unless it lists it by name. All obligations of the
+      licence agreement remain operative, including the no-sale clause for
+      data products and the notice requirements. Was
+      BLK-NRLMSIS2-LICENCE-PENDING; resolved by the written reply recorded in
+      pending_request.
+    evidence_url: "https://www.nrl.navy.mil/Doing-Business/Technology-Transfer/Commercial-Licenses/"
+    note: >-
+      The 2.0 licence terms are embedded in the package readme.txt (MSIS NRL-SOF-014-1): academic, non-commercial only, NO modification permitted, methods covered by US Patent 10,641,925. derived_output_redistribution is 'conditional', not
+      'permitted': the correspondence permits FREE publication of numerical
+      results, figures, discussion, small derived tables, versions, hashes,
+      configuration and provenance; the licence's no-sale clause for data
+      products remains operative, and large output grids that substitute for
+      the model are excluded by this project's own policy. This record covers
+      the named version only; NRLMSISE-00 and every other model remain under
+      their separately recorded statuses.
+
+  - resource_name: nrlmsis_2_1
+    resource_kind: software
+    spdx_or_licence_name: "LicenseRef-NRL-SOF-014-1-Academic-Research"
+    licence_url: "https://map.nrl.navy.mil/map/pub/nrl/NRLMSIS/NRLMSIS2.1/"
+    copyright_holder: "US Naval Research Laboratory"
+    source_url: "https://map.nrl.navy.mil/map/pub/nrl/NRLMSIS/NRLMSIS2.1/"
+    version: "2.1 (release 04 APR 2022)"
+    commercial_use: "prohibited"
+    saas_use: "prohibited"
+    on_premise_redistribution: "prohibited"
+    raw_data_caching: "not_applicable"
+    raw_data_redistribution: "not_applicable"
+    derived_output_redistribution: "conditional"
+    modification_permitted: "conditional"
+    credential_required: false
+    legal_review_required: true
+    notice_required: true
+    attribution_text: >-
+      NRLMSIS 2.1 (release 04 APR 2022, adds NO density), US Naval Research Laboratory. The package's stated reference is Emmert, J. T., et al. (2021), Earth and Space Science, 8, e2020EA001321, doi:10.1029/2020EA001321; the package readme names no separate 2.1 paper and none is invented here.
+    classification: "red"
+    policy_decision: "research_noncommercial_open_publication_permitted"
+    fail_closed: false
+    pending_request:
+      requested_of: "US Naval Research Laboratory (Technology Transfer / IP Counsel)"
+      requested_utc: "2026-08-16T00:00:00+00:00"
+      questions_asked:
+        - >-
+          Whether non-revenue, openly published research carried out through WSE
+          Limited is permitted under the NRLMSIS 2.0/2.1 terms.
+        - >-
+          Whether an independent Apache-2.0 Python wrapper containing no NRL
+          code, no NRL coefficients and no translated NRL routines is treated as
+          separate interoperability software.
+        - >-
+          Whether free publication of derived figures, numerical results and
+          small reproducibility tables is permitted.
+      reply_received: true
+      reply_utc: "2026-08-23T00:00:00+00:00"
+      reply_scope: >-
+        WRITTEN REPLY, relayed verbatim by the operator (reply_utc is the date
+        the reply was entered in this register, same convention as
+        requested_utc; permission_basis is
+        operator_confirmed_written_nrl_permission, and the correspondence
+        itself is intentionally_not_stored_by_project). Operative text: "The developer got back with me and said, 'I have no issues permitting this use - this is exactly the kind of academic use we wanted the primary license to permit.' Therefore, you can proceed with utilizing this invention under the terms of the license agreement." The reply
+        answers an email that expressly described: research through Waynestark
+        Enterprises Limited (a UK commercial legal entity) that is strictly
+        non-commercial, not customer-funded, not a paid product or service,
+        with no revenue intended; open publication; original methodology and
+        original source code on public GitHub; use of NRLMSIS 2.0 and 2.1; an
+        independently written wrapper with no NRL source, no translated
+        routines, no NRL coefficient or parameter files and no modification of
+        the official implementation; separate per-user installation from the
+        authorised NRL source; Apache-2.0 applying ONLY to original wrapper
+        and analysis code; publication limited to model-generated numerical
+        results, figures, discussion, small derived tables, version
+        identifiers, hashes, configuration and provenance; and no
+        redistribution, translation, modification, relicensing or bundling of
+        NRL material. "Under the terms of the license agreement" is
+        CONTROLLING: this is permission for the described use under the
+        existing licence, not a waiver of it. It covers NRLMSIS 2.0 and 2.1
+        ONLY; it says nothing about NRLMSISE-00, HWM14, DTM2020, JB2008 or any
+        other model.
+    written_confirmation_status: >-
+      operator_confirmed_written_nrl_permission. NRL's written permission
+      for the described use was communicated by the operator and is the
+      basis of this record. The correspondence itself is intentionally not
+      stored, copied, hashed or archived by this project, and its absence
+      is not a blocker and blocks nothing.
+    permitted_project_mode: >-
+      Non-commercial open scientific research as described in the
+      correspondence: openly published, not customer-funded, no revenue
+      intended, original Apache-2.0 wrapper and analysis code, official model
+      installed separately by each user from the authorised NRL source.
+    hosted_service_status: "not granted by this correspondence"
+    customer_distribution_status: "not granted by this correspondence"
+    source_redistribution_status: >-
+      prohibited unless the controlling licence expressly says otherwise; not
+      undertaken. No NRL source file enters git, wheels, sdists, images,
+      release archives or review bundles.
+    coefficient_redistribution_status: >-
+      prohibited unless the controlling licence expressly says otherwise; not
+      undertaken. msis20.parm and msis21.parm stay in the external
+      installation, outside every distributed artefact.
+    translation_status: "not undertaken; no NRL routine is translated into any language"
+    wrapper_status: >-
+      independent interoperability wrapper permitted under the described
+      architecture: original Fortran driver linking the UNMODIFIED official
+      sources plus an original Python layer; contains no NRL code, no
+      translated routines and no coefficient data.
+    permission_basis: >-
+      operator_confirmed_written_nrl_permission; correspondence_storage is
+      intentionally_not_stored_by_project. The sanitised public asset
+      manifest is third_party/nrlmsis_asset_manifest.yaml.
+    citation_requirements: >-
+      NRLMSIS 2.1 (release 04 APR 2022, adds NO density), US Naval Research Laboratory. The package's stated reference is Emmert, J. T., et al. (2021), Earth and Space Science, 8, e2020EA001321, doi:10.1029/2020EA001321; the package readme names no separate 2.1 paper and none is invented here.
+    acknowledgement_requirements: >-
+      Exact clause 4.c language from nrlmsis2.1_license.txt, applicable to any software package that INCORPORATES the Software (this project's wrapper does not incorporate it, and records the clause conservatively): 'This software incorporates the MSIS(R) empirical atmospheric model software designed and provided by NRL. Use is governed by the Open Source Academic Research License Agreement contained in the file nrlmsis2.1_license.txt.' MSIS(R) is a registered trademark of the Government of the United States of America.
+    policy_reason: >-
+      RESOLVED for one described use, and only that use. The licence itself is
+      unchanged: academic/research, non-commercial, no sale of the software or
+      of data products without NRL IP Counsel consent, US Patent 10,641,925
+      recorded separately. NRL has confirmed in writing that this project's
+      described non-commercial, openly published research workflow is
+      permitted under those terms ("under the terms of the license agreement"
+      is controlling - it is not a waiver). Commercial use, paid customer
+      work, consulting, SaaS, commercial APIs, hosted or on-premise products,
+      bundling in sold applications, commercial internal deployment unrelated
+      to this research, redistribution of source or coefficients, translation,
+      modification, relicensing and commercial derivatives remain NOT granted
+      and fail closed: production admits only 'permitted', and no other mode
+      admits this decision unless it lists it by name. All obligations of the
+      licence agreement remain operative, including the no-sale clause for
+      data products and the notice requirements. Was
+      BLK-NRLMSIS2-LICENCE-PENDING; resolved by the written reply recorded in
+      pending_request.
+    evidence_url: "https://www.nrl.navy.mil/Doing-Business/Technology-Transfer/Commercial-Licenses/"
+    note: >-
+      The 2.1 licence is the separate Open Source Academic Research License Agreement (nrlmsis2.1_license.txt in the package): research, academic and non-profit use only; modification carries notice, delivery and open-sourcing obligations, none of which is triggered because no modification is undertaken. derived_output_redistribution is 'conditional', not
+      'permitted': the correspondence permits FREE publication of numerical
+      results, figures, discussion, small derived tables, versions, hashes,
+      configuration and provenance; the licence's no-sale clause for data
+      products remains operative, and large output grids that substitute for
+      the model are excluded by this project's own policy. This record covers
+      the named version only; NRLMSISE-00 and every other model remain under
+      their separately recorded statuses.
+
+  - resource_name: msis20_parm
+    resource_kind: coefficient_file
+    spdx_or_licence_name: "LicenseRef-NRL-MSIS-2.0-Academic-NonCommercial"
+    licence_url: "https://map.nrl.navy.mil/map/pub/nrl/NRLMSIS/NRLMSIS2.0/"
+    copyright_holder: "US Naval Research Laboratory"
+    source_url: "https://map.nrl.navy.mil/map/pub/nrl/NRLMSIS/NRLMSIS2.0/"
+    version: "msis20.parm, as distributed in the official NRLMSIS2.0 package"
+    commercial_use: "prohibited"
+    saas_use: "prohibited"
+    on_premise_redistribution: "prohibited"
+    raw_data_caching: "conditional"
+    raw_data_redistribution: "prohibited"
+    derived_output_redistribution: "conditional"
+    modification_permitted: "prohibited"
+    credential_required: false
+    legal_review_required: true
+    notice_required: true
+    attribution_text: >-
+      msis20.parm coefficient file, US Naval Research Laboratory, used only via
+      the separately installed official model. Cite Emmert, J. T., et al. (2021), Earth and Space Science, 8, e2020EA001321, doi:10.1029/2020EA001321.
+    classification: "red"
+    policy_decision: "research_noncommercial_open_publication_permitted"
+    fail_closed: false
+    pending_request:
+      requested_of: "US Naval Research Laboratory (Technology Transfer / IP Counsel)"
+      requested_utc: "2026-08-16T00:00:00+00:00"
+      questions_asked:
+        - >-
+          Whether non-revenue, openly published research carried out through WSE
+          Limited is permitted under the NRLMSIS 2.0/2.1 terms.
+        - >-
+          Whether an independent Apache-2.0 Python wrapper containing no NRL
+          code, no NRL coefficients and no translated NRL routines is treated as
+          separate interoperability software.
+        - >-
+          Whether free publication of derived figures, numerical results and
+          small reproducibility tables is permitted.
+      reply_received: true
+      reply_utc: "2026-08-23T00:00:00+00:00"
+      reply_scope: >-
+        WRITTEN REPLY, relayed verbatim by the operator (reply_utc is the date
+        the reply was entered in this register, same convention as
+        requested_utc; permission_basis is
+        operator_confirmed_written_nrl_permission, and the correspondence
+        itself is intentionally_not_stored_by_project). Operative text: "The developer got back with me and said, 'I have no issues permitting this use - this is exactly the kind of academic use we wanted the primary license to permit.' Therefore, you can proceed with utilizing this invention under the terms of the license agreement." The reply
+        answers an email that expressly described: research through Waynestark
+        Enterprises Limited (a UK commercial legal entity) that is strictly
+        non-commercial, not customer-funded, not a paid product or service,
+        with no revenue intended; open publication; original methodology and
+        original source code on public GitHub; use of NRLMSIS 2.0 and 2.1; an
+        independently written wrapper with no NRL source, no translated
+        routines, no NRL coefficient or parameter files and no modification of
+        the official implementation; separate per-user installation from the
+        authorised NRL source; Apache-2.0 applying ONLY to original wrapper
+        and analysis code; publication limited to model-generated numerical
+        results, figures, discussion, small derived tables, version
+        identifiers, hashes, configuration and provenance; and no
+        redistribution, translation, modification, relicensing or bundling of
+        NRL material. "Under the terms of the license agreement" is
+        CONTROLLING: this is permission for the described use under the
+        existing licence, not a waiver of it. It covers NRLMSIS 2.0 and 2.1
+        ONLY; it says nothing about NRLMSISE-00, HWM14, DTM2020, JB2008 or any
+        other model.
+    written_confirmation_status: >-
+      operator_confirmed_written_nrl_permission. NRL's written permission
+      for the described use was communicated by the operator and is the
+      basis of this record. The correspondence itself is intentionally not
+      stored, copied, hashed or archived by this project, and its absence
+      is not a blocker and blocks nothing.
+    permitted_project_mode: >-
+      Non-commercial open scientific research as described in the
+      correspondence: openly published, not customer-funded, no revenue
+      intended, original Apache-2.0 wrapper and analysis code, official model
+      installed separately by each user from the authorised NRL source.
+    hosted_service_status: "not granted by this correspondence"
+    customer_distribution_status: "not granted by this correspondence"
+    source_redistribution_status: >-
+      prohibited unless the controlling licence expressly says otherwise; not
+      undertaken. No NRL source file enters git, wheels, sdists, images,
+      release archives or review bundles.
+    coefficient_redistribution_status: >-
+      prohibited unless the controlling licence expressly says otherwise; not
+      undertaken. msis20.parm and msis21.parm stay in the external
+      installation, outside every distributed artefact.
+    translation_status: "not undertaken; no NRL routine is translated into any language"
+    wrapper_status: >-
+      independent interoperability wrapper permitted under the described
+      architecture: original Fortran driver linking the UNMODIFIED official
+      sources plus an original Python layer; contains no NRL code, no
+      translated routines and no coefficient data.
+    permission_basis: >-
+      operator_confirmed_written_nrl_permission; correspondence_storage is
+      intentionally_not_stored_by_project. The sanitised public asset
+      manifest is third_party/nrlmsis_asset_manifest.yaml.
+    citation_requirements: >-
+      Cite Emmert, J. T., et al. (2021), Earth and Space Science, 8, e2020EA001321, doi:10.1029/2020EA001321.
+    acknowledgement_requirements: >-
+      Carried on the parent software record (nrlmsis_2_20);
+      the coefficient file states no separate acknowledgement text and none is
+      invented.
+    policy_reason: >-
+      RESOLVED for the one described use, exactly as the parent software
+      record: the written NRL reply covers the described research workflow in
+      which each user installs the official package - including this file -
+      separately from the authorised NRL source. 'conditional' raw_data_caching
+      means precisely that local copy in the external installation at
+      {NRLMSIS20_ROOT} or {NRLMSIS21_ROOT}; the file never enters git, wheels,
+      sdists, images, release archives, review bundles or CI caches, and its
+      sha256 is pinned in third_party/nrlmsis_asset_manifest.yaml, which the
+      provider verifies before every run - a wrong or swapped parameter file
+      refuses to run. Was BLK-NRLMSIS2-LICENCE-PENDING.
+    evidence_url: "https://www.nrl.navy.mil/Doing-Business/Technology-Transfer/Commercial-Licenses/"
+    note: >-
+      Authoritative sha256 cf612796af04f473fc9b1445460c30aa497cdc9c991d3507190893577c124602 (also in the public asset manifest). The two
+      parameter files are the same size and msisinit performs NO content
+      validation, so accidental cross-loading is physically possible and is
+      prevented by the provider's per-version hash pin, with a negative test.
+
+  - resource_name: msis21_parm
+    resource_kind: coefficient_file
+    spdx_or_licence_name: "LicenseRef-NRL-SOF-014-1-Academic-Research"
+    licence_url: "https://map.nrl.navy.mil/map/pub/nrl/NRLMSIS/NRLMSIS2.1/"
+    copyright_holder: "US Naval Research Laboratory"
+    source_url: "https://map.nrl.navy.mil/map/pub/nrl/NRLMSIS/NRLMSIS2.1/"
+    version: "msis21.parm, as distributed in the official NRLMSIS2.1 package"
+    commercial_use: "prohibited"
+    saas_use: "prohibited"
+    on_premise_redistribution: "prohibited"
+    raw_data_caching: "conditional"
+    raw_data_redistribution: "prohibited"
+    derived_output_redistribution: "conditional"
+    modification_permitted: "conditional"
+    credential_required: false
+    legal_review_required: true
+    notice_required: true
+    attribution_text: >-
+      msis21.parm coefficient file, US Naval Research Laboratory, used only via
+      the separately installed official model. Cite Emmert, J. T., et al. (2021), Earth and Space Science, 8, e2020EA001321, doi:10.1029/2020EA001321.
+    classification: "red"
+    policy_decision: "research_noncommercial_open_publication_permitted"
+    fail_closed: false
+    pending_request:
+      requested_of: "US Naval Research Laboratory (Technology Transfer / IP Counsel)"
+      requested_utc: "2026-08-16T00:00:00+00:00"
+      questions_asked:
+        - >-
+          Whether non-revenue, openly published research carried out through WSE
+          Limited is permitted under the NRLMSIS 2.0/2.1 terms.
+        - >-
+          Whether an independent Apache-2.0 Python wrapper containing no NRL
+          code, no NRL coefficients and no translated NRL routines is treated as
+          separate interoperability software.
+        - >-
+          Whether free publication of derived figures, numerical results and
+          small reproducibility tables is permitted.
+      reply_received: true
+      reply_utc: "2026-08-23T00:00:00+00:00"
+      reply_scope: >-
+        WRITTEN REPLY, relayed verbatim by the operator (reply_utc is the date
+        the reply was entered in this register, same convention as
+        requested_utc; permission_basis is
+        operator_confirmed_written_nrl_permission, and the correspondence
+        itself is intentionally_not_stored_by_project). Operative text: "The developer got back with me and said, 'I have no issues permitting this use - this is exactly the kind of academic use we wanted the primary license to permit.' Therefore, you can proceed with utilizing this invention under the terms of the license agreement." The reply
+        answers an email that expressly described: research through Waynestark
+        Enterprises Limited (a UK commercial legal entity) that is strictly
+        non-commercial, not customer-funded, not a paid product or service,
+        with no revenue intended; open publication; original methodology and
+        original source code on public GitHub; use of NRLMSIS 2.0 and 2.1; an
+        independently written wrapper with no NRL source, no translated
+        routines, no NRL coefficient or parameter files and no modification of
+        the official implementation; separate per-user installation from the
+        authorised NRL source; Apache-2.0 applying ONLY to original wrapper
+        and analysis code; publication limited to model-generated numerical
+        results, figures, discussion, small derived tables, version
+        identifiers, hashes, configuration and provenance; and no
+        redistribution, translation, modification, relicensing or bundling of
+        NRL material. "Under the terms of the license agreement" is
+        CONTROLLING: this is permission for the described use under the
+        existing licence, not a waiver of it. It covers NRLMSIS 2.0 and 2.1
+        ONLY; it says nothing about NRLMSISE-00, HWM14, DTM2020, JB2008 or any
+        other model.
+    written_confirmation_status: >-
+      operator_confirmed_written_nrl_permission. NRL's written permission
+      for the described use was communicated by the operator and is the
+      basis of this record. The correspondence itself is intentionally not
+      stored, copied, hashed or archived by this project, and its absence
+      is not a blocker and blocks nothing.
+    permitted_project_mode: >-
+      Non-commercial open scientific research as described in the
+      correspondence: openly published, not customer-funded, no revenue
+      intended, original Apache-2.0 wrapper and analysis code, official model
+      installed separately by each user from the authorised NRL source.
+    hosted_service_status: "not granted by this correspondence"
+    customer_distribution_status: "not granted by this correspondence"
+    source_redistribution_status: >-
+      prohibited unless the controlling licence expressly says otherwise; not
+      undertaken. No NRL source file enters git, wheels, sdists, images,
+      release archives or review bundles.
+    coefficient_redistribution_status: >-
+      prohibited unless the controlling licence expressly says otherwise; not
+      undertaken. msis20.parm and msis21.parm stay in the external
+      installation, outside every distributed artefact.
+    translation_status: "not undertaken; no NRL routine is translated into any language"
+    wrapper_status: >-
+      independent interoperability wrapper permitted under the described
+      architecture: original Fortran driver linking the UNMODIFIED official
+      sources plus an original Python layer; contains no NRL code, no
+      translated routines and no coefficient data.
+    permission_basis: >-
+      operator_confirmed_written_nrl_permission; correspondence_storage is
+      intentionally_not_stored_by_project. The sanitised public asset
+      manifest is third_party/nrlmsis_asset_manifest.yaml.
+    citation_requirements: >-
+      Cite Emmert, J. T., et al. (2021), Earth and Space Science, 8, e2020EA001321, doi:10.1029/2020EA001321.
+    acknowledgement_requirements: >-
+      Carried on the parent software record (nrlmsis_2_21);
+      the coefficient file states no separate acknowledgement text and none is
+      invented.
+    policy_reason: >-
+      RESOLVED for the one described use, exactly as the parent software
+      record: the written NRL reply covers the described research workflow in
+      which each user installs the official package - including this file -
+      separately from the authorised NRL source. 'conditional' raw_data_caching
+      means precisely that local copy in the external installation at
+      {NRLMSIS20_ROOT} or {NRLMSIS21_ROOT}; the file never enters git, wheels,
+      sdists, images, release archives, review bundles or CI caches, and its
+      sha256 is pinned in third_party/nrlmsis_asset_manifest.yaml, which the
+      provider verifies before every run - a wrong or swapped parameter file
+      refuses to run. Was BLK-NRLMSIS2-LICENCE-PENDING.
+    evidence_url: "https://www.nrl.navy.mil/Doing-Business/Technology-Transfer/Commercial-Licenses/"
+    note: >-
+      Authoritative sha256 a322a749f368e73117dd20f3fdcf7389dabc5509f4c27073cc5580999381b508 (also in the public asset manifest). The two
+      parameter files are the same size and msisinit performs NO content
+      validation, so accidental cross-loading is physically possible and is
+      prevented by the provider's per-version hash pin, with a negative test.
+
+  - resource_name: dtm2020
+    resource_kind: software
+    spdx_or_licence_name: "LicenseRef-CNES-DTM-NonCommercial"
+    licence_url: "https://swami-h2020-eu.github.io/mcm/license.html"
+    copyright_holder: "CNES"
+    source_url: "https://github.com/swami-h2020-eu/mcm"
+    version: "DTM2020 / MCM (SWAMI)"
+    commercial_use: "prohibited"
+    saas_use: "prohibited"
+    on_premise_redistribution: "prohibited"
+    raw_data_caching: "not_applicable"
+    raw_data_redistribution: "not_applicable"
+    derived_output_redistribution: "prohibited"
+    modification_permitted: "prohibited"
+    credential_required: false
+    legal_review_required: true
+    notice_required: false
+    attribution_text: >-
+      DTM2020 / MCM, CNES. Academic, non-commercial licence; not used by this
+      product.
+    classification: "red"
+    policy_decision: "prohibited_by_licence"
+    policy_reason: >-
+      CNES grants a free licence for the DTM software for academic,
+      non-commercial purposes only; a commercial licence must be requested from
+      CNES. This also rules out any DTM-based composition route, including the
+      optional DTM path inside other propagation libraries.
+    evidence_url: "https://www.swsc-journal.org/articles/swsc/full_html/2021/01/swsc210039/swsc210039.html"
+    note: ""
+
+  - resource_name: jb2008
+    resource_kind: software
+    spdx_or_licence_name: "LicenseRef-SET-JB2008"
+    licence_url: "https://sol.spacenvironment.net/JB2008/License.html"
+    copyright_holder: "Space Environment Technologies"
+    source_url: "https://spacewx.com/jb2008/"
+    version: "2008"
+    commercial_use: "permitted"
+    saas_use: "permitted"
+    on_premise_redistribution: "conditional"
+    raw_data_caching: "not_applicable"
+    raw_data_redistribution: "not_applicable"
+    derived_output_redistribution: "permitted"
+    modification_permitted: "prohibited"
+    credential_required: false
+    legal_review_required: true
+    notice_required: true
+    attribution_text: >-
+      JB2008 model distributed by Space Environment Technologies
+      (https://spacewx.com/jb2008/), used unmodified with acknowledgement.
+    classification: "amber"
+    policy_decision: "permitted"
+    policy_reason: >-
+      The SET licence expressly permits commercial distribution provided an
+      acknowledgement is made to Space Environment Technologies, and expressly
+      forbids modifying, adapting, translating, reverse engineering, decompiling
+      or disassembling the software or its driver data. Permitted only as a
+      separate, unmodified component with the acknowledgement carried.
+    evidence_url: "https://sol.spacenvironment.net/JB2008/License.html"
+    note: >-
+      Total density and temperature only, no species. Its driver files are
+      recorded separately as jb2008_driver_files and are NOT cleared, so the
+      model cannot enter production until those terms are resolved.
+
+  - resource_name: jb2008_driver_files
+    resource_kind: coefficient_file
+    spdx_or_licence_name: "LicenseRef-SET-JB2008"
+    licence_url: "https://sol.spacenvironment.net/JB2008/License.html"
+    copyright_holder: "Space Environment Technologies"
+    source_url: "https://spacewx.com/jb2008/"
+    version: "SOLFSMY.TXT, DTCFILE.TXT, SOLRESAP.TXT, DSTFILE.TXT (45-day lag)"
+    commercial_use: "conditional"
+    saas_use: "conditional"
+    on_premise_redistribution: "conditional"
+    raw_data_caching: "conditional"
+    raw_data_redistribution: "conditional"
+    derived_output_redistribution: "permitted"
+    modification_permitted: "prohibited"
+    credential_required: false
+    legal_review_required: true
+    notice_required: true
+    attribution_text: >-
+      JB2008 driver files, Space Environment Technologies
+      (https://spacewx.com/jb2008/).
+    classification: "amber"
+    policy_decision: "excluded_by_policy"
+    policy_reason: >-
+      The 45-day-lag files are published free of charge, but the commercial
+      redistribution terms for the driver files, and the exact role of
+      SOLRESAP, are unresolved (BLK-JB2008-DRIVER-TERMS). Excluded from
+      production until SET confirms the terms in writing, rather than assumed
+      to follow the model licence.
+    evidence_url: "https://spacewx.com/jb2008/"
+    note: "Real-time indices require a paid Unified Data Library subscription."
+
+  - resource_name: hwm14
+    resource_kind: software
+    spdx_or_licence_name: "LicenseRef-HWM14-NRL-Unstated"
+    licence_url: "https://github.com/lgpedersen/hwm14"
+    copyright_holder: "US Naval Research Laboratory; Python wrapper by L. G. Pedersen"
+    source_url: "https://github.com/jacobwilliams/HWM14"
+    version: "HWM14 with DWM07 disturbance winds"
+    commercial_use: "conditional"
+    saas_use: "conditional"
+    on_premise_redistribution: "conditional"
+    raw_data_caching: "not_applicable"
+    raw_data_redistribution: "not_applicable"
+    derived_output_redistribution: "conditional"
+    modification_permitted: "conditional"
+    credential_required: false
+    legal_review_required: true
+    notice_required: false
+    attribution_text: "HWM14 horizontal wind model, US Naval Research Laboratory."
+    classification: "amber"
+    policy_decision: "excluded_by_policy"
+    policy_reason: >-
+      The maintained Python wrapper declares an OSI MIT licence and the
+      original NRL Fortran carries no MSIS2-style restriction clause, so this is
+      AMBER and specifically NOT red. It is nonetheless excluded from
+      production because the original NRL terms have not been located in
+      writing (BLK-HWM14-TERMS); the fallback is an explicit zero-wind or
+      bounded-wind scenario, never an invisible default.
+    evidence_url: "https://github.com/lgpedersen/hwm14/blob/master/setup.cfg"
+    note: "Not a declared dependency; recorded so that adding it requires a decision."
+
+  - resource_name: hwm14_coefficients
+    resource_kind: coefficient_file
+    spdx_or_licence_name: "LicenseRef-HWM14-NRL-Unstated"
+    licence_url: "https://github.com/jacobwilliams/HWM14"
+    copyright_holder: "US Naval Research Laboratory"
+    source_url: "https://github.com/jacobwilliams/HWM14"
+    version: "hwm123114.bin, dwm07b104i.dat, gd2qd.dat"
+    commercial_use: "conditional"
+    saas_use: "conditional"
+    on_premise_redistribution: "conditional"
+    raw_data_caching: "conditional"
+    raw_data_redistribution: "conditional"
+    derived_output_redistribution: "conditional"
+    modification_permitted: "conditional"
+    credential_required: false
+    legal_review_required: true
+    notice_required: false
+    attribution_text: "HWM14 and DWM07 binary coefficient files, US Naval Research Laboratory."
+    classification: "amber"
+    policy_decision: "excluded_by_policy"
+    policy_reason: >-
+      No explicit licence text was located for the binary coefficient files.
+      They are recorded apart from the model source because an MIT wrapper does
+      not license the data it loads, and a coefficient file is the easiest thing
+      to ship without noticing.
+    evidence_url: "https://github.com/jacobwilliams/HWM14"
+    note: ""
+
+  # ===================== aerodynamics and propagation =====================
+
+  - resource_name: adbsat
+    resource_kind: software
+    spdx_or_licence_name: "GPL-3.0-only"
+    licence_url: "https://www.gnu.org/licenses/gpl-3.0.html"
+    copyright_holder: "N. H. Crisp and contributors"
+    source_url: "https://github.com/nhcrisp/ADBSat"
+    version: "as deposited at doi:10.17632/622n2yjg4w.1"
+    commercial_use: "permitted"
+    saas_use: "permitted"
+    on_premise_redistribution: "conditional"
+    raw_data_caching: "not_applicable"
+    raw_data_redistribution: "not_applicable"
+    derived_output_redistribution: "permitted"
+    modification_permitted: "permitted"
+    credential_required: false
+    legal_review_required: false
+    notice_required: true
+    attribution_text: "ADBSat, Copyright (c) N. H. Crisp and contributors, GPL-3.0."
+    classification: "amber"
+    policy_decision: "excluded_by_policy"
+    policy_reason: >-
+      GPL-3.0 PERMITS commercial use; what it attaches is a strong copyleft
+      obligation on distributed derivative works. This project declines that
+      obligation for its proprietary implementation, and ADBSat additionally
+      requires the proprietary MATLAB Aerospace Toolbox. The free-molecular
+      aerodynamics are therefore implemented in-house from the Sentman (1961)
+      primary literature. This is a POLICY exclusion; recording ADBSat as
+      prohibited would misstate the GPL.
+    evidence_url: "https://doi.org/10.17632/622n2yjg4w.1"
+    note: >-
+      May be used as an external GPL executable for validation in research
+      mode; its code is never copied into this implementation.
+
+  - resource_name: nyx
+    resource_kind: software
+    spdx_or_licence_name: "AGPL-3.0-only"
+    licence_url: "https://github.com/nyx-space/nyx/blob/master/LICENSE"
+    copyright_holder: "Nyx Space contributors"
+    source_url: "https://github.com/nyx-space/nyx"
+    version: "as published in the upstream repository"
+    commercial_use: "permitted"
+    saas_use: "conditional"
+    on_premise_redistribution: "conditional"
+    raw_data_caching: "not_applicable"
+    raw_data_redistribution: "not_applicable"
+    derived_output_redistribution: "permitted"
+    modification_permitted: "permitted"
+    credential_required: false
+    legal_review_required: true
+    notice_required: true
+    attribution_text: "Nyx, Copyright (c) Nyx Space contributors, AGPL-3.0."
+    classification: "amber"
+    policy_decision: "excluded_by_policy"
+    policy_reason: >-
+      AGPL-3.0 PERMITS commercial use; what it attaches is network copyleft,
+      which would require offering the complete corresponding source of this
+      hosted service to every user. This project declines that obligation and
+      uses its own propagator. This is a POLICY exclusion, not a licence
+      prohibition.
+    evidence_url: "https://github.com/nyx-space/nyx"
+    note: "Licence status carried forward from prior research; re-verify before any use."
+
+
+  # ============================== datasets ================================
+
+  - resource_name: gfz_kp_ap
+    resource_kind: dataset
+    spdx_or_licence_name: "CC-BY-4.0"
+    licence_url: "https://creativecommons.org/licenses/by/4.0/"
+    copyright_holder: "GFZ German Research Centre for Geosciences"
+    source_url: "https://kp.gfz.de/en/data"
+    version: "Kp/ap definitive, 1932 to present (February 2022 definitive)"
+    commercial_use: "permitted"
+    saas_use: "permitted"
+    on_premise_redistribution: "permitted"
+    raw_data_caching: "permitted"
+    raw_data_redistribution: "permitted"
+    derived_output_redistribution: "permitted"
+    modification_permitted: "permitted"
+    credential_required: false
+    legal_review_required: false
+    notice_required: true
+    attribution_text: >-
+      Kp and ap indices, GFZ German Research Centre for Geosciences, Matzka et
+      al. (2021), doi:10.5880/Kp.0001, CC BY 4.0.
+    classification: "green"
+    policy_decision: "permitted"
+    policy_reason: >-
+      CC BY 4.0: non-commercial AND commercial use and redistribution are
+      permitted under the conditions of the licence. This is the PRODUCTION
+      geomagnetic driver.
+    evidence_url: "https://doi.org/10.5880/Kp.0001"
+    note: "Attribution is a licence condition, not a courtesy."
+
+  - resource_name: nasa_omni
+    resource_kind: dataset
+    spdx_or_licence_name: "LicenseRef-US-Gov-Public-Domain"
+    licence_url: "https://www.usa.gov/government-works"
+    copyright_holder: "NASA Goddard Space Flight Center"
+    source_url: "https://omniweb.gsfc.nasa.gov/"
+    version: "OMNI HRO 1-min, February 2022 coverage"
+    commercial_use: "permitted"
+    saas_use: "permitted"
+    on_premise_redistribution: "permitted"
+    raw_data_caching: "permitted"
+    raw_data_redistribution: "conditional"
+    derived_output_redistribution: "permitted"
+    modification_permitted: "permitted"
+    credential_required: false
+    legal_review_required: true
+    notice_required: true
+    attribution_text: >-
+      NASA/GSFC OMNI 1-min high-resolution dataset, doi:10.48322/45bb-8792,
+      via CDAWeb (https://cdaweb.gsfc.nasa.gov/).
+    classification: "green"
+    policy_decision: "permitted"
+    policy_reason: >-
+      US-Government open data, and the lawful substitute for WDC Kyoto at the
+      DATASET level. Permitted at the resource level with FIELD-LEVEL CONTROL:
+      the SYM-H, ASY-H and AE variables inside the aggregation are
+      Kyoto-derived and are handled per variable in the data_fields table.
+    evidence_url: "https://doi.org/10.48322/45bb-8792"
+    note: >-
+      A dataset-level permission does not clear every variable in it. See
+      data_fields and BLK-OMNI-KYOTO-FIELDS.
+
+
+  - resource_name: noaa_swpc
+    resource_kind: dataset
+    spdx_or_licence_name: "LicenseRef-US-Gov-Public-Domain"
+    licence_url: "https://www.noaa.gov/information-technology/open-data-dissemination"
+    copyright_holder: "NOAA Space Weather Prediction Center"
+    source_url: "https://www.swpc.noaa.gov/"
+    version: "Alerts, watches, warnings and GOES X-ray archives"
+    commercial_use: "permitted"
+    saas_use: "permitted"
+    on_premise_redistribution: "permitted"
+    raw_data_caching: "permitted"
+    raw_data_redistribution: "permitted"
+    derived_output_redistribution: "permitted"
+    modification_permitted: "permitted"
+    credential_required: false
+    legal_review_required: false
+    notice_required: true
+    attribution_text: "NOAA Space Weather Prediction Center products (https://www.swpc.noaa.gov/)."
+    classification: "green"
+    policy_decision: "permitted"
+    policy_reason: "NOAA open data dissemination. US-Government work."
+    evidence_url: "https://www.ncei.noaa.gov/products/space-weather/partners/swpc-products-and-data"
+    note: >-
+      The systematic 3-Day-Forecast archive begins 03/2022, so the products
+      issued during this event are not reliably retrievable; that is an
+      availability gap, not a licence restriction.
+
+  - resource_name: wdc_kyoto_symh
+    resource_kind: dataset
+    spdx_or_licence_name: "LicenseRef-WDC-Kyoto-NonCommercial"
+    licence_url: "https://wdc.kugi.kyoto-u.ac.jp/wdc/Sec3.html"
+    copyright_holder: "World Data Center for Geomagnetism, Kyoto"
+    source_url: "https://wdc.kugi.kyoto-u.ac.jp/dstdir/"
+    version: "Dst, SYM-H, ASY-H and AE (February 2022 provisional)"
+    commercial_use: "prohibited"
+    saas_use: "prohibited"
+    on_premise_redistribution: "prohibited"
+    raw_data_caching: "prohibited"
+    raw_data_redistribution: "prohibited"
+    derived_output_redistribution: "prohibited"
+    modification_permitted: "prohibited"
+    credential_required: false
+    legal_review_required: true
+    notice_required: false
+    attribution_text: >-
+      WDC Kyoto geomagnetic indices. Not used by this product; commercial
+      applications are not permitted by the publisher.
+    classification: "red"
+    policy_decision: "prohibited_by_licence"
+    policy_reason: >-
+      The publisher states plainly that the WDC Kyoto does not allow commercial
+      applications of the geomagnetic indices, and the February 2022
+      provisional and real-time series are marked for non-commercial purposes
+      only. This is a licence prohibition, not a policy preference: not with
+      attribution, not cached, not for validation only inside a shipped result.
+    evidence_url: "https://wdc.kugi.kyoto-u.ac.jp/dst_provisional/index.html"
+    note: >-
+      The substitute at dataset level is NASA OMNI. The specific SYM-H, ASY-H
+      and AE variables inside OMNI are Kyoto-derived and carry their own open
+      question; see data_fields.
+
+  - resource_name: hasdm
+    resource_kind: dataset
+    spdx_or_licence_name: "LicenseRef-SET-HASDM-ResearchOnly"
+    licence_url: "https://spacewx.com/hasdm/"
+    copyright_holder: "Space Environment Technologies"
+    source_url: "https://spacewx.com/hasdm/"
+    version: "SET HASDM density database, 2000-2025, 175-825 km"
+    commercial_use: "prohibited"
+    saas_use: "prohibited"
+    on_premise_redistribution: "prohibited"
+    raw_data_caching: "prohibited"
+    raw_data_redistribution: "prohibited"
+    derived_output_redistribution: "prohibited"
+    modification_permitted: "prohibited"
+    credential_required: false
+    legal_review_required: true
+    notice_required: false
+    attribution_text: >-
+      SET HASDM density database. Research use only; not used by this product.
+    classification: "red"
+    policy_decision: "prohibited_by_licence"
+    policy_reason: >-
+      SET provides access free of charge to the international science community
+      for research purposes only; commercial uses are permitted only through an
+      explicit agreement with SET. Absent that agreement this is a licence
+      prohibition.
+    evidence_url: "https://spacewx.com/hasdm/"
+    note: >-
+      Usable as a validation reference in research mode only, under a SET
+      agreement, and never as a production input.
+
+  - resource_name: celestrak
+    resource_kind: dataset
+    spdx_or_licence_name: "LicenseRef-CelesTrak-Terms"
+    licence_url: "https://celestrak.org/"
+    copyright_holder: "CelesTrak, Dr T. S. Kelso"
+    source_url: "https://celestrak.org/NORAD/elements/"
+    version: "GP element sets and space-weather file, as retrieved"
+    commercial_use: "conditional"
+    saas_use: "conditional"
+    on_premise_redistribution: "conditional"
+    raw_data_caching: "permitted"
+    raw_data_redistribution: "prohibited"
+    derived_output_redistribution: "permitted"
+    modification_permitted: "not_applicable"
+    credential_required: false
+    legal_review_required: true
+    notice_required: true
+    attribution_text: "Element sets and space-weather indices via CelesTrak (https://celestrak.org/)."
+    classification: "amber"
+    policy_decision: "permitted"
+    policy_reason: >-
+      Permitted for retrieval and for derived products with attribution. Bulk
+      republication of the raw catalogue is not: the data are Space-Track
+      derived and inherit its redistribution limits, so this project caches for
+      its own use and publishes derived results only.
+    evidence_url: "https://celestrak.org/"
+    note: "Also the practical production route to F10.7, whose primary NRCan terms are unverified."
+
+
+  - resource_name: tudelft_grace_fo
+    resource_kind: dataset
+    spdx_or_licence_name: "CC-BY-4.0"
+    licence_url: "https://creativecommons.org/licenses/by/4.0/"
+    copyright_holder: "Delft University of Technology"
+    source_url: "https://thermosphere.tudelft.nl/data/data/version_02/GRACE-FO_data/"
+    version: "v02 (GC_DNS_ACC_2022_02_v02)"
+    commercial_use: "permitted"
+    saas_use: "permitted"
+    on_premise_redistribution: "permitted"
+    raw_data_caching: "permitted"
+    raw_data_redistribution: "permitted"
+    derived_output_redistribution: "permitted"
+    modification_permitted: "permitted"
+    credential_required: false
+    legal_review_required: false
+    notice_required: true
+    attribution_text: >-
+      GRACE-FO accelerometer-derived thermosphere density, Delft University of
+      Technology, Siemes et al. (2023), doi:10.1051/swsc/2023014, CC BY 4.0.
+    classification: "green"
+    policy_decision: "permitted"
+    policy_reason: >-
+      The density and crosswind DATA are CC BY 4.0. The aerodynamic and
+      geometry MODELS from the same group are a separate resource under
+      different terms and must not be conflated with the data.
+    evidence_url: "https://doi.org/10.1051/swsc/2023014"
+    note: >-
+      Observations sit at about 490-505 km, roughly 280 km above the Starlink
+      staging perigee: storm-response validation, never point validation at
+      210 km.
+
+  - resource_name: tudelft_aero_models
+    resource_kind: dataset
+    spdx_or_licence_name: "CC-BY-NC-SA-4.0"
+    licence_url: "https://creativecommons.org/licenses/by-nc-sa/4.0/"
+    copyright_holder: "Delft University of Technology"
+    source_url: "http://thermosphere.tudelft.nl/"
+    version: "geometry, aerodynamic and radiation-pressure models, v02 era"
+    commercial_use: "prohibited"
+    saas_use: "prohibited"
+    on_premise_redistribution: "prohibited"
+    raw_data_caching: "prohibited"
+    raw_data_redistribution: "prohibited"
+    derived_output_redistribution: "prohibited"
+    modification_permitted: "permitted"
+    credential_required: false
+    legal_review_required: true
+    notice_required: false
+    attribution_text: >-
+      TU Delft geometry and aerodynamic models. Non-commercial licence; not
+      used by this product.
+    classification: "red"
+    policy_decision: "prohibited_by_licence"
+    policy_reason: >-
+      CC BY-NC-SA 4.0 forbids commercial use. The NC term is what makes this
+      red; the SA term would additionally be a policy problem. Recorded
+      separately from tudelft_grace_fo precisely because the same institution
+      publishes CC BY 4.0 data alongside CC BY-NC-SA 4.0 models, and treating
+      the site as one licensed object would take the wrong answer for one of
+      them.
+    evidence_url: "http://thermosphere.tudelft.nl/"
+    note: >-
+      The free-molecular aerodynamics used here are implemented in-house from
+      the Sentman (1961) primary literature, so no substitute is needed.
+
+  - resource_name: f107_nrcan
+    resource_kind: dataset
+    spdx_or_licence_name: "LicenseRef-NRCan-DRAO-Unstated"
+    licence_url: "https://www.spaceweather.gc.ca/"
+    copyright_holder: "Natural Resources Canada / DRAO Penticton"
+    source_url: "https://www.spaceweather.gc.ca/solar_flux_data/daily_flux_values/fluxtable.txt"
+    version: "daily observed and adjusted F10.7"
+    commercial_use: "conditional"
+    saas_use: "conditional"
+    on_premise_redistribution: "conditional"
+    raw_data_caching: "conditional"
+    raw_data_redistribution: "conditional"
+    derived_output_redistribution: "conditional"
+    modification_permitted: "not_applicable"
+    credential_required: false
+    legal_review_required: true
+    notice_required: true
+    attribution_text: >-
+      F10.7 solar radio flux, Natural Resources Canada, DRAO Penticton
+      (https://www.spaceweather.gc.ca/).
+    classification: "amber"
+    policy_decision: "excluded_by_policy"
+    policy_reason: >-
+      F10.7 is a required NRLMSISE-00 driver, but explicit commercial
+      redistribution terms for the NRCan primary source have not been located
+      (BLK-F107-TERMS). The primary source is therefore excluded from the
+      production path pending written terms; production reads F10.7 through
+      CelesTrak, whose own terms are recorded.
+    evidence_url: "https://www.spaceweather.gc.ca/contact-en.php"
+    note: >-
+      This is an open question honestly recorded, not a finding that NRCan
+      forbids commercial use.
+
+# ---------------------------------------------------------------------------
+# Per-variable data licences
+# ---------------------------------------------------------------------------
+# A dataset-level permission does not clear every variable inside it. Two cases
+# in this project force the distinction:
+#
+#   NASA OMNI is US-Government open data, but SYM-H, ASY-H and AE inside the
+#   aggregation are Kyoto-DERIVED, and WDC Kyoto forbids commercial use of the
+#   indices. Whether NASA's terms cover the derived fields in full is an OPEN
+#   QUESTION (BLK-OMNI-KYOTO-FIELDS). It is recorded here as `conditional`
+#   with the condition written down. Asserting either answer would be inventing
+#   a legal determination.
+#
+#   TU Delft publishes CC BY 4.0 density DATA and CC BY-NC-SA 4.0 aerodynamic
+#   MODELS from the same portal.
+#
+# substitute_variable resolves as "dataset.variable", or as a bare variable
+# name within the same dataset, and must itself be production-allowed.
+data_fields:
+
+  - dataset: gfz_kp_ap
+    variable_name: "Kp"
+    licence: "CC-BY-4.0"
+    commercial_use: "permitted"
+    production_allowed: true
+    substitute_variable: null
+    note: "Definitive for February 2022. Production geomagnetic driver."
+
+  - dataset: gfz_kp_ap
+    variable_name: "ap"
+    licence: "CC-BY-4.0"
+    commercial_use: "permitted"
+    production_allowed: true
+    substitute_variable: null
+    note: "The NRLMSISE-00 geomagnetic driver, and the lawful storm index for production."
+
+  - dataset: nasa_omni
+    variable_name: "BZ_GSM"
+    licence: "LicenseRef-US-Gov-Public-Domain"
+    commercial_use: "permitted"
+    production_allowed: true
+    substitute_variable: null
+    note: "NASA-produced IMF variable; not Kyoto-derived."
+
+  - dataset: nasa_omni
+    variable_name: "flow_speed"
+    licence: "LicenseRef-US-Gov-Public-Domain"
+    commercial_use: "permitted"
+    production_allowed: true
+    substitute_variable: null
+    note: "NASA-produced solar-wind variable; not Kyoto-derived."
+
+  - dataset: nasa_omni
+    variable_name: "proton_density"
+    licence: "LicenseRef-US-Gov-Public-Domain"
+    commercial_use: "permitted"
+    production_allowed: true
+    substitute_variable: null
+    note: "NASA-produced solar-wind variable; not Kyoto-derived."
+
+  - dataset: nasa_omni
+    variable_name: "SYM_H"
+    licence: "LicenseRef-US-Gov-Public-Domain aggregation of a Kyoto-derived index"
+    commercial_use: "conditional"
+    production_allowed: false
+    substitute_variable: "gfz_kp_ap.ap"
+    note: >-
+      OPEN QUESTION (BLK-OMNI-KYOTO-FIELDS). NASA republishes SYM-H as
+      US-Government open data, but the index itself is derived by WDC Kyoto,
+      whose terms forbid commercial applications of the geomagnetic indices.
+      Whether the NASA aggregation clears the derived field in full is not
+      resolved, so it is excluded from production rather than assumed either
+      way. Research use is permitted; the production physics uses GFZ ap.
+
+  - dataset: nasa_omni
+    variable_name: "ASY_H"
+    licence: "LicenseRef-US-Gov-Public-Domain aggregation of a Kyoto-derived index"
+    commercial_use: "conditional"
+    production_allowed: false
+    substitute_variable: "gfz_kp_ap.ap"
+    note: >-
+      OPEN QUESTION (BLK-OMNI-KYOTO-FIELDS), identical in kind to SYM_H:
+      Kyoto-derived inside a NASA aggregation, unresolved, therefore excluded
+      from production rather than assumed either way.
+
+  - dataset: nasa_omni
+    variable_name: "AE_INDEX"
+    licence: "LicenseRef-US-Gov-Public-Domain aggregation of a Kyoto-derived index"
+    commercial_use: "conditional"
+    production_allowed: false
+    substitute_variable: "gfz_kp_ap.ap"
+    note: >-
+      OPEN QUESTION (BLK-OMNI-KYOTO-FIELDS). The AE index is WDC Kyoto
+      provisional for 2022 and reaches OMNI through the same aggregation route
+      as SYM-H, so it carries the same unresolved condition.
+
+  - dataset: wdc_kyoto_symh
+    variable_name: "Dst"
+    licence: "LicenseRef-WDC-Kyoto-NonCommercial"
+    commercial_use: "prohibited"
+    production_allowed: false
+    substitute_variable: "gfz_kp_ap.ap"
+    note: >-
+      Development cross-check only. The like-for-like substitute is OMNI SYM-H,
+      but that variable carries its own unresolved condition, so the production
+      substitute recorded here is the GFZ ap index.
+
+  - dataset: wdc_kyoto_symh
+    variable_name: "SYM_H"
+    licence: "LicenseRef-WDC-Kyoto-NonCommercial"
+    commercial_use: "prohibited"
+    production_allowed: false
+    substitute_variable: "gfz_kp_ap.ap"
+    note: >-
+      Commercial applications of the Kyoto indices are not permitted by the
+      publisher. There is no code path from this project to a Kyoto endpoint.
+
+  - dataset: wdc_kyoto_symh
+    variable_name: "AE"
+    licence: "LicenseRef-WDC-Kyoto-NonCommercial"
+    commercial_use: "prohibited"
+    production_allowed: false
+    substitute_variable: "gfz_kp_ap.ap"
+    note: "Provisional for 2022 and non-commercial; excluded from the production path."
+
+  - dataset: tudelft_grace_fo
+    variable_name: "density"
+    licence: "CC-BY-4.0"
+    commercial_use: "permitted"
+    production_allowed: true
+    substitute_variable: null
+    note: "Accelerometer-derived neutral density at about 490-505 km. DATA, CC BY 4.0."
+
+  - dataset: tudelft_grace_fo
+    variable_name: "crosswind"
+    licence: "CC-BY-4.0"
+    commercial_use: "permitted"
+    production_allowed: true
+    substitute_variable: null
+    note: "Crosswind from the same processing chain as the density product. DATA, CC BY 4.0."
+
+  - dataset: tudelft_aero_models
+    variable_name: "aerodynamic_coefficients"
+    licence: "CC-BY-NC-SA-4.0"
+    commercial_use: "prohibited"
+    production_allowed: false
+    substitute_variable: null
+    note: >-
+      Same institution and same portal as the CC BY 4.0 density data, different
+      licence. The in-house Sentman implementation replaces it.
+
+  - dataset: tudelft_aero_models
+    variable_name: "geometry_model"
+    licence: "CC-BY-NC-SA-4.0"
+    commercial_use: "prohibited"
+    production_allowed: false
+    substitute_variable: null
+    note: "Non-commercial; the project uses its own geometry and projected-area model."
+
+  - dataset: celestrak
+    variable_name: "f10_7_obs"
+    licence: "LicenseRef-CelesTrak-Terms"
+    commercial_use: "conditional"
+    production_allowed: true
+    substitute_variable: null
+    note: >-
+      Condition: attribution to CelesTrak, cached for this project's own use,
+      and no bulk republication of the raw file. Observed daily F10.7, distinct
+      from the 1 AU adjusted value.
+
+  - dataset: celestrak
+    variable_name: "f10_7_81_avg"
+    licence: "LicenseRef-CelesTrak-Terms"
+    commercial_use: "conditional"
+    production_allowed: true
+    substitute_variable: null
+    note: >-
+      Condition: as for f10_7_obs. The 81-day centred average that NRLMSISE-00
+      expects alongside the daily value.
+
+  - dataset: celestrak
+    variable_name: "gp_element_set"
+    licence: "LicenseRef-CelesTrak-Terms"
+    commercial_use: "conditional"
+    production_allowed: true
+    substitute_variable: null
+    note: >-
+      Condition: Space-Track-derived, so derived products may be published but
+      the raw element sets may not be redistributed in bulk.
+
+
+
