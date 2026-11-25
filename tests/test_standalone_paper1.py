@@ -1,4 +1,4 @@
-"""Standalone unit & verification tests for starlink-thermosphere-orbital-decay (Paper I)."""
+"""Standalone unit & verification tests for waynestark-starlink-thermosphere-orbital-decay (Paper I)."""
 from __future__ import annotations
 
 import datetime as dt

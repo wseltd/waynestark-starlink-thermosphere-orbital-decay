@@ -5,7 +5,7 @@ title: "Atmospheric Model Response and Conditional Orbital Consequences of the F
 version: "1.0.0"
 date-released: "2026-11-24"
 license: Apache-2.0
-repository-code: "https://github.com/wseltd/starlink-thermosphere-orbital-decay"
+repository-code: "https://github.com/wseltd/waynestark-starlink-thermosphere-orbital-decay"
 authors:
   - family-names: "Aydogan"
     given-names: "Onur A. W."

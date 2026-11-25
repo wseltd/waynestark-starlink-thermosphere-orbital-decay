@@ -1,6 +1,6 @@
 {
   "schema": "waynestark-shared-kernel-provenance/1",
-  "repository": "starlink-thermosphere-orbital-decay",
+  "repository": "waynestark-starlink-thermosphere-orbital-decay",
   "paper": "Paper I: Atmospheric Model Response and Conditional Orbital Consequences",
   "release_version": "1.0.0",
   "shared_library_name": "thermosphere_consequence",

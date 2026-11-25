@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Independent standalone verification runner for starlink-thermosphere-orbital-decay (Paper I, v1.0.0)."""
+"""Independent standalone verification runner for waynestark-starlink-thermosphere-orbital-decay (Paper I, v1.0.0)."""
 from __future__ import annotations
 
 import csv

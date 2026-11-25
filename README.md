@@ -1,4 +1,4 @@
-# starlink-thermosphere-orbital-decay
+# waynestark-starlink-thermosphere-orbital-decay
 
 Standalone open-source reproducibility repository for **Paper I**:
 

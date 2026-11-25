@@ -1,6 +1,6 @@
 {
   "schema": "waynestark-standalone-clean-install-receipt/1",
-  "repository": "starlink-thermosphere-orbital-decay",
+  "repository": "waynestark-starlink-thermosphere-orbital-decay",
   "release_version": "1.0.0",
   "status": "PASS",
   "non_git_extraction_verified": true,
